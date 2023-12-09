@@ -14,3 +14,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+logging:
+  level:
+    mars.mars.todos: DEBUG
