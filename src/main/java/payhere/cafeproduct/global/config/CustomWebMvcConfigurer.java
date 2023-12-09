@@ -9,7 +9,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import payhere.cafeproduct.global.interceptor.JwtInterceptor;
 import payhere.cafeproduct.global.interceptor.LoggingInterceptor;
+import payhere.cafeproduct.global.jwt.JwtTokenExtractor;
 
 import java.util.List;
 
@@ -22,15 +24,25 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableSpringDataWebSupport
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
+    private final JwtTokenExtractor jwtTokenExtractor;
+
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/resources/",
             "classpath:/static/", ""};
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // ** Logging Interceptor
         registry.addInterceptor(new LoggingInterceptor())
                 .addPathPatterns("/**")
                 .order(0);
+
+        // ** Jwt Interceptor
+        registry.addInterceptor(new JwtInterceptor(jwtTokenExtractor))
+                .addPathPatterns("/api/**")
+                .excludePathPatterns("/api/auth/**")
+                .excludePathPatterns("/health")
+                .order(1);
     }
 
     @Override
