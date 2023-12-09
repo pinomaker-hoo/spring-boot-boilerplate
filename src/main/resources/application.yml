@@ -67,3 +67,6 @@ jwt:
 
 encryptUtil:
   secret: pinopinopinopino
+
+server:
+  port: 8080
