@@ -18,3 +18,52 @@ spring:
 logging:
   level:
     mars.mars.todos: DEBUG
+
+jwt:
+  header: Authorization
+  secret: UGF5aGVyZSBCYWNrZW5kIEVuZ2luZWVyIFRlc3QgQ2FmZSBQcm9kdWN0IE1hbmFnZSBTZXJ2ZXIgQXBwbGljYXRpb24gdXNpbmcgU3ByaW5nIGJvb3QgTXlTUUwgSlBBIExvbWJvaw==
+  token-validity-in-seconds: 86400
+  private-key: |
+    -----BEGIN PRIVATE KEY-----
+    MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCqoQWBiwG09LW7
+    VdUiByW1OyOhNTGmKiSWW/vjZMmj2elebBCJf98aKRxhiCnUf5U9HXQGq0bPpqVA
+    8wIHYrlKEVqr4Lf7evgR2WMoZl3MQJYWDGLH4xtoM9CqaMLNZc9BLpRd4MbntO2+
+    hNZwJU/IpkyOlqLP+BvxVcWq7xpcIbeEjGgXUXN/oBpyBM22jCfgTs45betKFXBr
+    JZO7c+z7+6C4fxI1cilsfxbW55MtcboxDviVqQXICxgpMwq2rJxQ+ltgftTYzfSU
+    JwqPD0OQdoFM9+XEy9vLtqUhO3d2vPEMC/TPCrxi849l4PFfPxa7wbkzF1qf9v9l
+    wHZRqg2pAgMBAAECggEABYJ3jz9+1moEdQ0h4BxpxX71LCwJWchu/M/xkHeQfBL5
+    3yVCj3FEMfyopvMvocxdp4CMK5Ioq8t0w8xVAQoMc6DSoOdiHLCG0oS55MCrDLP7
+    l+PeGLHaEIGD0ZmnMkMavL8VTJOI6+VCvAeSddwukr5HJvkkPrtQChK79ER0p6VK
+    W6ZAREts6oS/q0ej4axka3NkAfX0Dyt/aNN6A+YDfIjrjd8M8H+XUNnjrVtNDG/F
+    8dXHqXackkPTZ6XfscGN5QeObN5uWU/+5eMaCJHHYEvdiUlriySviHTrZ4w4V3Y5
+    v1ZsjWnyY28ug6TAXY7ITEyfEsCR4wg4ZZ0qhweKFQKBgQDbefx6PtsHAQEFnHSV
+    DXsw8UC0euYHmk2V0ZPBSFVWgsmPVKj+3iWIeP/jekWpCe5saQ2bjre9T7uEJaBZ
+    es0MIfynJVtlTdEFnlZhieNPvWXv7Dq+QbNd5fi4XfUYspqRvVnYPUgKqzKxkMvh
+    HRZnFnfbW+zNjIhXbJQFKzePhwKBgQDHBg+c00xM2vBmY8nbWnlmcK/bTfvNSsAd
+    PX/2MAyjLoHHBIjF/3t9yq4x1QB3IGOiwCzs9C7aeS6kKrW7j60vPSmokPkX8TEF
+    w/NdTr6+82hREz/x80f52hLpfQksBVFVE+IBZQNjt7Vnl3nCVuyIRYmGbf0DPZ06
+    B744RRflTwKBgQDQu7aUqNz0T08igAccjyK/jGLmgw/s4SKyvwyQQXPwABkkOPc0
+    1h/KKJHtTaecubZI4qyvak9zO7ZyWrqi/ziuNlCswsmmkhieCFXNFC/c8ZtWUEwa
+    EDA/uG0RI0LsB0kcHIKrNrUieGmRGM3ePiTFTEgXltijMOmmg7xPIigIVwKBgQCh
+    o/eMLER86xhyYDtybxHINF9vYu/ONRbA6NEDttSct8npRHJ9NNksOi+uA0vkdKbX
+    aPNT46ImCGPsK0/8LF3AzxEFefEFE/v3rcT7FFhxJ6mip1q4/BiKASZ5AfcwDIWY
+    7pQRA+Rz2aF4qBrYztY+exON3civGByZI+7HLr6QmwKBgAEcmkD3eNgshmgZL4P9
+    WTyZiliXk6fQmWaQeu6uSUL58BCFZQfSAQuZ8U1a0L1fz6BfzmZFVcVMv9VYMboU
+    +P3hmOhmxzrgtpCgv6I0ir2yn3vh4z8xJ7/ZUkC8d8Z46tfmFq3IYqxBciOK53Ym
+    /EL8fExVjjyHZ3Xz4ogKe0eF
+    -----END PRIVATE KEY-----
+  public-key: |
+    -----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqqEFgYsBtPS1u1XVIgcl
+    tTsjoTUxpiokllv742TJo9npXmwQiX/fGikcYYgp1H+VPR10BqtGz6alQPMCB2K5
+    ShFaq+C3+3r4EdljKGZdzECWFgxix+MbaDPQqmjCzWXPQS6UXeDG57TtvoTWcCVP
+    yKZMjpaiz/gb8VXFqu8aXCG3hIxoF1Fzf6AacgTNtown4E7OOW3rShVwayWTu3Ps
+    +/uguH8SNXIpbH8W1ueTLXG6MQ74lakFyAsYKTMKtqycUPpbYH7U2M30lCcKjw9D
+    kHaBTPflxMvby7alITt3drzxDAv0zwq8YvOPZeDxXz8Wu8G5Mxdan/b/ZcB2UaoN
+    qQIDAQAB
+    -----END PUBLIC KEY-----
+  accessTokenValidityInSeconds: 1800
+  refreshTokenValidityInSeconds: 604800
+
+encryptUtil:
+  secret: pinopinopinopino
