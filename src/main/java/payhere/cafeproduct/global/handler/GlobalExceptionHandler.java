@@ -20,12 +20,13 @@ import static org.springframework.http.HttpStatus.*;
  */
 @Slf4j
 @NoArgsConstructor
-@RestControllerAdvice(basePackages = {"boilerplate.pinomaker"})
+@RestControllerAdvice(basePackages = {"payhere.cafeproduct"})
 public class GlobalExceptionHandler {
     @ExceptionHandler({
             UnAuthenticationException.class
     })
     public ResponseEntity<Object> handleUnauthorizedException(Exception e) {
+        log.info("Hello world");
         return errorResponse(e, UNAUTHORIZED);
     }
 
