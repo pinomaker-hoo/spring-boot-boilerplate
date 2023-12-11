@@ -38,11 +38,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            MethodArgumentNotValidException.class,
             ValidationException.class,
     })
     public ResponseEntity<Object> handleValidationException(Exception e) {
-        return ApiResponse.builder().meta(new MetaResponse(BAD_REQUEST, e.getMessage())).data(null).buildObject();
+        log.error("[LOG] {} ({}) : {}", BAD_REQUEST, BAD_REQUEST.value(), e.getMessage());
+        return ApiResponse.builder().meta(new MetaResponse(BAD_REQUEST, "입력 값이 잘못되었습니다.")).data(null).buildObject();
     }
 
     @ExceptionHandler({ForbiddenException.class})
