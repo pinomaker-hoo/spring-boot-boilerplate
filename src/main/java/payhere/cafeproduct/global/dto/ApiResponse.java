@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Collections;
+
 
 @Getter
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude
 public class ApiResponse<T> {
 
     private MetaResponse meta;
