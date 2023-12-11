@@ -4,6 +4,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ProductCategoryJpaCustomRepositoryImpl {
+public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJpaCustomRepository {
     private final JPAQueryFactory queryFactory;
 }
