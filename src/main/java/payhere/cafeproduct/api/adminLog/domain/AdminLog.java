@@ -26,7 +26,7 @@ public class AdminLog extends BaseTimeCreatedEntity {
     private LogType logType;
 
     @Comment("로그 내용")
-    @Column(nullable = false, name = "log_type", columnDefinition = "TEXT")
+    @Column(nullable = false, name = "log", columnDefinition = "TEXT")
     private String log;
 
     @Comment("로그 데이터")
