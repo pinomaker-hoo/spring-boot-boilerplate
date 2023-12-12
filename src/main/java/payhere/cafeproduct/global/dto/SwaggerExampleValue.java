@@ -36,4 +36,9 @@ public class SwaggerExampleValue {
     // ** POST : /api/v1/product
     public static final String PRODUCT_SAVE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품을 생성합니다..\"},\"data\":null}";
     public static final String PRODUCT_SAVE_NOT_FOUND_CATEGORY_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"상품 카테고리 정보를 찾을 수 없습니다.\"},\"data\":null}";
+
+    // ** PUT : /api/v1/product
+    public static final String PRODUCT_UPDATE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품을 수정합니다..\"},\"data\":null}";
+    public static final String PRODUCT_UPDATE_NOT_FOUND_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"상품 정보를 찾을 수 없습니다.\"},\"data\":null}";
+    public static final String PRODUCT_UPDATE_FORBIDDEN_RESPONSE = "{\"meta\":{\"code\":403,\"message\":\"상품을 수정할 권한이 없습니다.\"},\"data\":null}";
 }
