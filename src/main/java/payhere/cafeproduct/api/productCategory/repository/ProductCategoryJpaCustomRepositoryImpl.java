@@ -13,6 +13,8 @@ import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
 import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
 import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryWithUserId;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJpaCustomRepository {
     private final JPAQueryFactory queryFactory;
@@ -65,6 +67,20 @@ public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJp
                 )).from(pc).where(
                 pc.id.eq(productCategoryId)
         ).fetchOne();
+    }
+
+    @Override
+    public boolean isExistProductCategory(Integer userId, List<Integer> ids) {
+        QProductCategory pc = QProductCategory.productCategory;
+
+        long count = 0;
+
+        count = queryFactory.select(pc.id.count())
+                .from(pc)
+                .where(pc.user.id.ne(userId).and(pc.id.in(ids)))
+                .fetchCount();
+
+        return count > 0 ? true : false;
     }
 
     private BooleanExpression ltProductCategoryId(Integer productCategoryId) {

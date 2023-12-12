@@ -25,6 +25,7 @@ import payhere.cafeproduct.global.enums.LogType;
 import payhere.cafeproduct.global.exception.ForbiddenException;
 import payhere.cafeproduct.global.exception.NotFoundException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -109,5 +110,27 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         );
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "상품 카테고리 정보를 수정합니다.", null);
+    }
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public ResponseEntity<?> deleteProductCategory(UserDetailDto userDetailDto, List<Integer> ids) throws Exception {
+        boolean existProductCategory = productCategoryJpaRepository.isExistProductCategory(userDetailDto.getUserId(), ids);
+
+        if (existProductCategory) {
+            throw new ForbiddenException("해당 카테고리를 삭제할 권한이 없습니다.");
+        }
+
+        productCategoryJpaRepository.deleteProductCategory(ids, userDetailDto.getUserId());
+
+        logJpaRepository.save(
+                Log.builder().logType(LogType.PRODUCT_CATEGORY_DELETE)
+                        .log("상품 카테고리를 삭제합니다.")
+                        .userId(userDetailDto.getUserId())
+                        .logData(ids.toString())
+                        .build()
+        );
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "상품 카테고리를 삭제합니다.", null);
     }
 }

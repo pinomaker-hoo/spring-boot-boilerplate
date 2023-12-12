@@ -21,6 +21,8 @@ import payhere.cafeproduct.global.dto.SwaggerExampleValue;
 import payhere.cafeproduct.global.dto.UserDetailDto;
 import payhere.cafeproduct.global.jwt.JwtTokenExtractor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/product/category")
@@ -87,4 +89,16 @@ public class ProductCategoryController {
         return productCategoryService.updateProductCategory(userDetailDto, dto);
     }
 
+    @Operation(summary = "Delete Product Category", description = "상품 카테고리 삭제, ID를 기반으로 권한 체크 후 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "상품 카테고리를 삭제합니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.PRODUCT_CATEGORY_DELETE_RESPONSE))),
+            @ApiResponse(responseCode = "401", description = "토큰이 유효하지 않습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UN_AUTHENTICATION_RESPONSE)})),
+            @ApiResponse(responseCode = "403", description = "해당 카테고리를 삭제할 권한이 없습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.PRODUCT_CATEGORY_DELETE_FORBIDDEN_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
+    @DeleteMapping
+    public ResponseEntity<?> deleteProductCategory(HttpServletRequest request, @RequestParam(name = "id", required = true) List<Integer> ids) throws Exception {
+        UserDetailDto userDetailDto = jwtTokenExtractor.extractUserId(request);
+
+        return productCategoryService.deleteProductCategory(userDetailDto, ids);
+    }
 }

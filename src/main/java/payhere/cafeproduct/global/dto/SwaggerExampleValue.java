@@ -2,7 +2,7 @@ package payhere.cafeproduct.global.dto;
 
 public class SwaggerExampleValue {
     public static final String INTERNAL_SERVER_ERROR_RESPONSE = "{\"meta\":{\"code\":500,\"message\":\"서버에서 오류가 발생했습니다..\"},\"data\":null}";
-    public static final String UN_AUTHENTICATION_RESPONSE =  "{\"meta\":{\"code\":401,\"message\":\"JWT 토큰이 잘못되었습니다\"},\"data\":null}";
+    public static final String UN_AUTHENTICATION_RESPONSE = "{\"meta\":{\"code\":401,\"message\":\"JWT 토큰이 잘못되었습니다\"},\"data\":null}";
 
     // ** POST : /api/v1/user
     public static final String USER_SAVE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"생성했습니다.\"},\"data\":null}";
@@ -18,7 +18,7 @@ public class SwaggerExampleValue {
     public static final String PRODUCT_CATEGORY_SAVE_NOT_FOUND_USER_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"로그인한 유저 정보를 찾을 수 없습니다.\"},\"data\":null}";
 
     // ** GET : /api/v1/product/category
-    public static final String PRODUCT_CATEGORY_FIND_LIST_RESPONSE =  "{\"meta\":{\"code\":200,\"message\":\"상품 카테고리 리스트를 조회합니다.\"},\"data\":{\"totalPages\":2,\"currentPage\":0,\"totalItems\":18,\"data\":[{\"id\":19,\"name\":\"coffee\"},{\"id\":18,\"name\":\"coffee\"},{\"id\":17,\"name\":\"coffee\"},{\"id\":16,\"name\":\"coffee\"},{\"id\":15,\"name\":\"coffee\"},{\"id\":14,\"name\":\"coffee\"},{\"id\":13,\"name\":\"coffee\"},{\"id\":12,\"name\":\"coffee\"},{\"id\":11,\"name\":\"coffee\"},{\"id\":10,\"name\":\"coffee\"}]}}";
+    public static final String PRODUCT_CATEGORY_FIND_LIST_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품 카테고리 리스트를 조회합니다.\"},\"data\":{\"totalPages\":2,\"currentPage\":0,\"totalItems\":18,\"data\":[{\"id\":19,\"name\":\"coffee\"},{\"id\":18,\"name\":\"coffee\"},{\"id\":17,\"name\":\"coffee\"},{\"id\":16,\"name\":\"coffee\"},{\"id\":15,\"name\":\"coffee\"},{\"id\":14,\"name\":\"coffee\"},{\"id\":13,\"name\":\"coffee\"},{\"id\":12,\"name\":\"coffee\"},{\"id\":11,\"name\":\"coffee\"},{\"id\":10,\"name\":\"coffee\"}]}}";
 
     // ** GET : /api/v1/product/category/{id}
     public static final String PRODUCT_CATEGORY_FIND_ONE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품 카테고리 정보를 조회합니다.\"},\"data\":{\"id\":10,\"name\":\"coffee\",\"exposeYn\":\"Y\",\"createdDate\":\"2023-12-13T01:28:37.626824\"}}";
@@ -29,4 +29,7 @@ public class SwaggerExampleValue {
     public static final String PRODUCT_CATEGORY_UPDATE_NOT_FOUND_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"상품 카테고리 정보를 찾을 수 없습니다.\"},\"data\":null}";
     public static final String PRODUCT_CATEGORY_UPDATE_FORBIDDEN_RESPONSE = "{\"meta\":{\"code\":403,\"message\":\"해당 카테고리를 수정할 권한이 없습니다.\"},\"data\":null}";
 
+    // ** DELETE : /api/v1/product/category
+    public static final String PRODUCT_CATEGORY_DELETE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품 카테고리를 삭제합니다.\"},\"data\":null}";
+    public static final String PRODUCT_CATEGORY_DELETE_FORBIDDEN_RESPONSE = "{\"meta\":{\"code\":403,\"message\":\"해당 카테고리를 삭제할 권한이 없습니다.\"},\"data\":null}";
 }
