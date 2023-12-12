@@ -34,9 +34,10 @@ public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJp
                                 pc.id,
                                 pc.name
                         )).from(pc)
-                .where(pc.user.id.eq(userId).and(
-                        ltProductCategoryId(productCategoryId)
-                ))
+                .where(pc.user.id.eq(userId)
+                        .and(pc.delYn.eq("N")).and(
+                                ltProductCategoryId(productCategoryId)
+                        ))
                 .orderBy(pc.id.desc())
                 .limit(pageable.getPageSize())
                 .fetchResults();
