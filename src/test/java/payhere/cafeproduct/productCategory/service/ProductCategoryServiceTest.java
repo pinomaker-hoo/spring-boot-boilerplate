@@ -9,11 +9,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
 import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategorySaveDto;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
 import payhere.cafeproduct.api.productCategory.service.ProductCategoryServiceImpl;
 import payhere.cafeproduct.api.user.domain.User;
@@ -22,12 +26,13 @@ import payhere.cafeproduct.global.dto.UserDetailDto;
 import payhere.cafeproduct.global.enums.UserRole;
 import payhere.cafeproduct.global.exception.NotFoundException;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -99,12 +104,23 @@ public class ProductCategoryServiceTest {
     @DisplayName("상품 카테고리 리스트 조회 - 상품 카테고리 리스트 조회에 성공했습니다.")
     public void 상품_카테고리_리스트_조회_성공했습니다() throws Exception {
         // Given
+        UserDetailDto userDetailDto = generateUserDetailDto();
+        Pageable pageable = PageRequest.of(0, 10);
+        Integer productCategoryId = 0;
 
         // Mock
+        when(productCategoryJpaRepository.findProductCategoryList(anyInt(), any(), anyInt()))
+                .thenReturn(new PageImpl<>(List.of(
+                        new ProductCategoryDetail(1, "coffee"),
+                        new ProductCategoryDetail(2, "tea")
+                )));
 
         // When
+        ResponseEntity<?> response = productCategoryService.findProductCategoryList(userDetailDto, pageable, productCategoryId);
 
         // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     @Test
@@ -191,7 +207,7 @@ public class ProductCategoryServiceTest {
 
 
     // ** Test Product Category 생성
-    private ProductCategory generateProductCategory(){
+    private ProductCategory generateProductCategory() {
         return ProductCategory.builder().name("tea").orderId(0).exposeYn("Y").build();
     }
 }
