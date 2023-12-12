@@ -16,4 +16,7 @@ public class SwaggerExampleValue {
     // ** POST : /api/v1/product/category
     public static final String PRODUCT_CATEGORY_SAVE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품 카테고리를 생성합니다.\"},\"data\":null}";
     public static final String PRODUCT_CATEGORY_SAVE_NOT_FOUND_USER_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"로그인한 유저 정보를 찾을 수 없습니다.\"},\"data\":null}";
+
+    // ** GET : /api/v1/product/category
+    public static final String PRODUCT_CATEGORY_FIND_LIST_RESPONSE =  "{\"meta\":{\"code\":200,\"message\":\"상품 카테고리 리스트를 조회합니다.\"},\"data\":{\"totalPages\":2,\"currentPage\":0,\"totalItems\":18,\"data\":[{\"id\":19,\"name\":\"coffee\"},{\"id\":18,\"name\":\"coffee\"},{\"id\":17,\"name\":\"coffee\"},{\"id\":16,\"name\":\"coffee\"},{\"id\":15,\"name\":\"coffee\"},{\"id\":14,\"name\":\"coffee\"},{\"id\":13,\"name\":\"coffee\"},{\"id\":12,\"name\":\"coffee\"},{\"id\":11,\"name\":\"coffee\"},{\"id\":10,\"name\":\"coffee\"}]}}";
 }
