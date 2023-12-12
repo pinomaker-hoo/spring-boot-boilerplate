@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<Object> handleValidationException(Exception e) {
         log.error("[LOG] {} ({}) : {}", BAD_REQUEST, BAD_REQUEST.value(), e.getMessage());
-        return ApiResponse.builder().meta(new MetaResponse(BAD_REQUEST, "입력 값이 잘못되었습니다.")).data(null).buildObject();
+        return ApiResponse.builder().meta(new MetaResponse(BAD_REQUEST.value(), "입력 값이 잘못되었습니다.")).data(null).buildObject();
     }
 
     @ExceptionHandler({ForbiddenException.class})
@@ -67,6 +67,6 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<Object> errorResponse(Exception e, HttpStatus httpStatus) {
         log.error("[LOG] {} ({}) : {}", httpStatus, httpStatus.value(), e.getMessage());
-        return ApiResponse.builder().meta(new MetaResponse(httpStatus, e.getMessage())).data(null).buildObject();
+        return ApiResponse.builder().meta(new MetaResponse(httpStatus.value(), e.getMessage())).data(null).buildObject();
     }
 }

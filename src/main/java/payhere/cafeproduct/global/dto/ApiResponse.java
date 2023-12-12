@@ -2,6 +2,7 @@ package payhere.cafeproduct.global.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
@@ -48,7 +49,7 @@ public class ApiResponse<T> {
         }
 
         public ResponseEntity<Object> buildObject() {
-            return new ResponseEntity<>(init(), meta.getCode());
+            return new ResponseEntity<>(init(), HttpStatusCode.valueOf(meta.getCode()));
         }
     }
 }

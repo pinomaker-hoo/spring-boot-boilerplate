@@ -10,6 +10,6 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MetaResponse<T> {
-    private HttpStatus code;
+    private int code;
     private String message;
 }

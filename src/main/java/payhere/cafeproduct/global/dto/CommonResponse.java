@@ -7,6 +7,6 @@ import org.springframework.http.ResponseEntity;
 @Slf4j
 public class CommonResponse {
     public static ResponseEntity<Object> createResponse(final int code, final String message, Object data) {
-        return ApiResponse.builder().meta(new MetaResponse(HttpStatus.valueOf(code), message)).data(data).buildObject();
+        return ApiResponse.builder().meta(new MetaResponse(code, message)).data(data).buildObject();
     }
 }
