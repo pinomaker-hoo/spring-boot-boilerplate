@@ -16,16 +16,6 @@ public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJp
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public long findProductCategoryCountByUserId(Integer userId) {
-        QProductCategory pc = QProductCategory.productCategory;
-
-        return queryFactory.select(pc.id.count())
-                .from(pc)
-                .where(pc.user.id.eq(userId))
-                .fetchCount();
-    }
-
-    @Override
     public Page<ProductCategoryInfo> findProductCategoryList(Integer userId, Pageable pageable, Integer productCategoryId) {
         QProductCategory pc = QProductCategory.productCategory;
         QueryResults<ProductCategoryInfo> list = queryFactory.select(

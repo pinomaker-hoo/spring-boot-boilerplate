@@ -208,6 +208,6 @@ public class ProductCategoryServiceTest {
 
     // ** Test Product Category 생성
     private ProductCategory generateProductCategory() {
-        return ProductCategory.builder().name("tea").orderId(0).exposeYn("Y").build();
+        return ProductCategory.builder().name("tea").exposeYn("Y").build();
     }
 }

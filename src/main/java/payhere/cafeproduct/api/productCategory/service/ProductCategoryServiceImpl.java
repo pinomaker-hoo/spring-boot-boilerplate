@@ -39,14 +39,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             throw new NotFoundException("로그인한 유저 정보를 찾을 수 없습니다.");
         }
 
-        // ** orderId를 위한 product category 개수 조회
-        long productCategoryCount = productCategoryJpaRepository.findProductCategoryCountByUserId(userDetailDto.getUserId());
-
         ProductCategory saveProductCategory = productCategoryJpaRepository.save(ProductCategory.builder()
                 .name(dto.getName())
                 .exposeYn(dto.getExposeYn())
                 .delYn("N")
-                .orderId((int) productCategoryCount)
                 .user(loginUser.get())
                 .createdId(userDetailDto.getUserId())
                 .modifiedId(userDetailDto.getUserId())

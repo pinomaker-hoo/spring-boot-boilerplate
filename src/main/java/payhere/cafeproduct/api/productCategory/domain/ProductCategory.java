@@ -20,10 +20,6 @@ public class ProductCategory extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Comment("정렬 순서")
-    @Column(nullable = false, name = "order_id")
-    private Integer orderId;
-
     @Comment("카테고리 이름")
     @Column(length = 30, nullable = false)
     private String name;
