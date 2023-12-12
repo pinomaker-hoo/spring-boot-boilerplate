@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
 import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategorySaveDto;
-import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
 import payhere.cafeproduct.api.productCategory.service.ProductCategoryServiceImpl;
 import payhere.cafeproduct.api.user.domain.User;
@@ -111,8 +111,8 @@ public class ProductCategoryServiceTest {
         // Mock
         when(productCategoryJpaRepository.findProductCategoryList(anyInt(), any(), anyInt()))
                 .thenReturn(new PageImpl<>(List.of(
-                        new ProductCategoryDetail(1, "coffee"),
-                        new ProductCategoryDetail(2, "tea")
+                        new ProductCategoryInfo(1, "coffee"),
+                        new ProductCategoryInfo(2, "tea")
                 )));
 
         // When

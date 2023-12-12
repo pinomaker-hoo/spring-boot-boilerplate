@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ProductCategoryDetail {
+public class ProductCategoryInfo {
     private Integer id;
     private String name;
 }

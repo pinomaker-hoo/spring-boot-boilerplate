@@ -11,7 +11,7 @@ import payhere.cafeproduct.api.log.domain.Log;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
 import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategorySaveDto;
-import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
 import payhere.cafeproduct.api.user.domain.User;
 import payhere.cafeproduct.api.user.repository.UserJpaRepository;
@@ -65,7 +65,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public ResponseEntity<?> findProductCategoryList(UserDetailDto userDetailDto, Pageable pageable, Integer productCategoryId) {
-        Page<ProductCategoryDetail> response = productCategoryJpaRepository.findProductCategoryList(userDetailDto.getUserId(), pageable, productCategoryId);
+        Page<ProductCategoryInfo> response = productCategoryJpaRepository.findProductCategoryList(userDetailDto.getUserId(), pageable, productCategoryId);
 
         Pagination data = Pagination.builder().totalPages(response.getTotalPages()).currentPage(response.getNumber()).totalItems(response.getTotalElements()).data(response.getContent()).build();
 

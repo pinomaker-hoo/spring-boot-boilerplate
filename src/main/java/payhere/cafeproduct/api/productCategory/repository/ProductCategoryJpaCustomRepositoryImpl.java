@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import payhere.cafeproduct.api.productCategory.domain.QProductCategory;
-import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
 
 @RequiredArgsConstructor
 public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJpaCustomRepository {
@@ -26,11 +26,11 @@ public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJp
     }
 
     @Override
-    public Page<ProductCategoryDetail> findProductCategoryList(Integer userId, Pageable pageable, Integer productCategoryId) {
+    public Page<ProductCategoryInfo> findProductCategoryList(Integer userId, Pageable pageable, Integer productCategoryId) {
         QProductCategory pc = QProductCategory.productCategory;
-        QueryResults<ProductCategoryDetail> list = queryFactory.select(
+        QueryResults<ProductCategoryInfo> list = queryFactory.select(
                         Projections.constructor(
-                                ProductCategoryDetail.class,
+                                ProductCategoryInfo.class,
                                 pc.id,
                                 pc.name
                         )).from(pc)
