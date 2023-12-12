@@ -9,10 +9,26 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
+import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
+import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategorySaveDto;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
 import payhere.cafeproduct.api.productCategory.service.ProductCategoryServiceImpl;
+import payhere.cafeproduct.api.user.domain.User;
 import payhere.cafeproduct.api.user.repository.UserJpaRepository;
+import payhere.cafeproduct.global.dto.UserDetailDto;
+import payhere.cafeproduct.global.enums.UserRole;
+import payhere.cafeproduct.global.exception.NotFoundException;
+
+import java.util.Optional;
+
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -34,24 +50,49 @@ public class ProductCategoryServiceTest {
     @DisplayName("상품 카테고리 생성 - 로그인한 유저 정보를 찾을 수 없습니다.")
     public void 상품_카테고리_생성_로그인한_유저_정보를_찾을_수_없습니다() throws Exception {
         // Given
+        RequestProductCategorySaveDto dto = RequestProductCategorySaveDto.builder()
+                .name("tea")
+                .exposeYn("Y")
+                .build();
+
+        UserDetailDto userDetailDto = generateUserDetailDto();
 
         // Mock
+        when(userJpaRepository.findById(userDetailDto.getUserId())).thenReturn(Optional.empty());
 
         // When
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            productCategoryService.saveProductCategory(userDetailDto, dto);
+        });
 
         // Then
+        assertEquals("로그인한 유저 정보를 찾을 수 없습니다.", exception.getMessage());
+
     }
 
     @Test
     @DisplayName("상품 카테고리 생성 - 상품 카테고리 생성에 성공했습니다.")
     public void 상품_카테고리_생성_성공했습니다() throws Exception {
         // Given
+        RequestProductCategorySaveDto dto = RequestProductCategorySaveDto.builder()
+                .name("tea")
+                .exposeYn("Y")
+                .build();
+
+        UserDetailDto userDetailDto = generateUserDetailDto();
+        User loginUser = generateUser();
+        ProductCategory productCategory = generateProductCategory();
 
         // Mock
+        when(userJpaRepository.findById(userDetailDto.getUserId())).thenReturn(Optional.ofNullable(loginUser));
+        when(productCategoryJpaRepository.save(any())).thenReturn(productCategory);
 
         // When
+        ResponseEntity<?> response = productCategoryService.saveProductCategory(userDetailDto, dto);
 
         // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     @Test
@@ -136,5 +177,21 @@ public class ProductCategoryServiceTest {
         // When
 
         // Then
+    }
+
+    // ** Test UserDetailDto 생성
+    private UserDetailDto generateUserDetailDto() {
+        return UserDetailDto.builder().userId(1).role(UserRole.ROLE_MEMBER).build();
+    }
+
+    // ** Test User 생성
+    private User generateUser() {
+        return User.builder().id(0).phoneNumber("010-1234-5678").password("1234").build();
+    }
+
+
+    // ** Test Product Category 생성
+    private ProductCategory generateProductCategory(){
+        return ProductCategory.builder().name("tea").orderId(0).exposeYn("Y").build();
     }
 }
