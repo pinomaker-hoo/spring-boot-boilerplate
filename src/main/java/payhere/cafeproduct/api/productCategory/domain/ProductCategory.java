@@ -24,9 +24,9 @@ public class ProductCategory extends BaseTimeEntity {
     @Column(nullable = false, name = "order_id")
     private Integer orderId;
 
-    @Comment("비밀번호")
-    @Column(length = 150, nullable = false)
-    private String password;
+    @Comment("카테고리 이름")
+    @Column(length = 30, nullable = false)
+    private String name;
 
     @Comment("노출 여부")
     @Column(columnDefinition = "CHAR(1)", nullable = false, name = "expose_yn")
