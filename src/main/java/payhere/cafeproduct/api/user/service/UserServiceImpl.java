@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import payhere.cafeproduct.api.log.domain.Log;
+import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.user.domain.User;
 import payhere.cafeproduct.api.user.event.dto.RequestUserLoginDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserSaveDto;
@@ -13,6 +15,7 @@ import payhere.cafeproduct.api.user.event.vo.LoginUser;
 import payhere.cafeproduct.api.user.repository.UserJpaRepository;
 import payhere.cafeproduct.global.dto.CommonResponse;
 import payhere.cafeproduct.global.dto.TokenDto;
+import payhere.cafeproduct.global.enums.LogType;
 import payhere.cafeproduct.global.enums.UserRole;
 import payhere.cafeproduct.global.exception.BadRequestException;
 import payhere.cafeproduct.global.exception.NotFoundException;
@@ -25,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserJpaRepository userJpaRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final LogJpaRepository logJpaRepository;
 
     @Override
     public ResponseEntity<?> saveUser(RequestUserSaveDto dto) throws Exception {
@@ -58,6 +62,8 @@ public class UserServiceImpl implements UserService {
         }
 
         TokenDto tokenDto = jwtTokenProvider.issueToken(Long.valueOf(loginUser.getId()), UserRole.ROLE_MEMBER);
+
+        logJpaRepository.save(Log.builder().logType(LogType.LOGIN).log("로그인 했습니다.").userId(Long.valueOf(loginUser.getId())).build());
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "로그인에 성공했습니다.", tokenDto);
     }
