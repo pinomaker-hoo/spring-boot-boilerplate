@@ -49,9 +49,9 @@ public class ProductCategoryController {
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
     @GetMapping
     private ResponseEntity<?> findProductCategoryList(HttpServletRequest request,
-                                                      @RequestParam(defaultValue = "0", required = true) Integer productCategoryId,
-                                                      @RequestParam(defaultValue = "0", required = true) int page,
-                                                      @RequestParam(defaultValue = "10", required = true) int size
+                                                      @RequestParam(name = "productCategoryId", defaultValue = "0", required = true) Integer productCategoryId,
+                                                      @RequestParam(name = "page", defaultValue = "0", required = true) int page,
+                                                      @RequestParam(name = "size", defaultValue = "10", required = true) int size
     ) throws Exception {
         UserDetailDto userDetailDto = jwtTokenExtractor.extractUserId(request);
         Pageable pageable = PageRequest.of(page, size);
