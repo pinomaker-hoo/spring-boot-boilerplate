@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.product.domain.Product;
 import payhere.cafeproduct.api.product.event.dto.RequestProductSaveDto;
+import payhere.cafeproduct.api.product.event.dto.RequestProductUpdateDto;
+import payhere.cafeproduct.api.product.event.vo.ProductWithUserId;
 import payhere.cafeproduct.api.product.repository.ProductJpaRepository;
 import payhere.cafeproduct.api.product.service.ProductServiceImpl;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
@@ -145,16 +147,96 @@ public class ProductServiceTest {
     @Test
     @DisplayName("상품 수정 - 상품 정보를 찾을 수 없습니다.")
     public void 상품_수정_데이터를_찾을_수_없습니다() throws Exception {
+        // Given
+        RequestProductUpdateDto dto = RequestProductUpdateDto.builder()
+                .productId(1L)
+                .productCategoryId(1)
+                .price(30000)
+                .cost(10000)
+                .name("tea")
+                .code("ABCD_EF@_123")
+                .expirationDate("2024-12-31 12:00:00")
+                .productSize(ProductSize.LARGE)
+                .exposeYn("Y")
+                .soldOutYn("N")
+                .build();
+
+        UserDetailDto userDetailDto = generateUserDetailDto();
+
+        // Mock
+        when(productJpaRepository.findProductById(anyLong())).thenReturn(null);
+
+        // When
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            productService.updateProduct(userDetailDto, dto);
+        });
+
+        // Then
+        assertEquals("상품 정보를 찾을 수 없습니다.", exception.getMessage());
     }
 
     @Test
     @DisplayName("상품 수정 - 수정 권한이 없습니다")
     public void 상품_수정_권한이_없습니다() throws Exception {
+        // Given
+        RequestProductUpdateDto dto = RequestProductUpdateDto.builder()
+                .productId(1L)
+                .productCategoryId(1)
+                .price(30000)
+                .cost(10000)
+                .name("tea")
+                .code("ABCD_EF@_123")
+                .expirationDate("2024-12-31 12:00:00")
+                .productSize(ProductSize.LARGE)
+                .exposeYn("Y")
+                .soldOutYn("N")
+                .build();
+
+        UserDetailDto userDetailDto = generateUserDetailDto();
+
+        // Mock
+        when(productJpaRepository.findProductById(anyLong())).thenReturn(new ProductWithUserId(1L, 3));
+
+        // When
+        ForbiddenException exception = assertThrows(ForbiddenException.class, () -> {
+            productService.updateProduct(userDetailDto, dto);
+        });
+
+        // Then
+        assertEquals("상품을 수정할 권한이 없습니다.", exception.getMessage());
     }
 
     @Test
     @DisplayName("상품 수정 - 상품 수정에 성공했습니다")
     public void 상품_수정_성공_했습니다() throws Exception {
+        // Given
+        RequestProductUpdateDto dto = RequestProductUpdateDto.builder()
+                .productId(1L)
+                .productCategoryId(1)
+                .price(30000)
+                .cost(10000)
+                .name("tea")
+                .code("ABCD_EF@_123")
+                .expirationDate("2024-12-31 12:00:00")
+                .productSize(ProductSize.LARGE)
+                .exposeYn("Y")
+                .soldOutYn("N")
+                .build();
+
+        UserDetailDto userDetailDto = generateUserDetailDto();
+        ProductCategory productCategory = generateProductCategory();
+        Product product = generateProduct(productCategory);
+
+        // Mock
+        when(productJpaRepository.findProductById(anyLong())).thenReturn(new ProductWithUserId(1L, 1));
+
+
+        // When
+        ResponseEntity<?> response = productService.updateProduct(userDetailDto, dto);
+
+        // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     @Test
