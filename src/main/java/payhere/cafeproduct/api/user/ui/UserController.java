@@ -29,7 +29,7 @@ public class UserController {
 
     @Operation(summary = "Save User", description = "회원가입, 전화번호와 비밀번호를 받아 유효성 및 중복 검사 후 유저를 저장합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원가입 후, 로그인에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.USER_SAVE_RESPONSE))),
+            @ApiResponse(responseCode = "200", description = "회원가입에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.USER_SAVE_RESPONSE))),
             @ApiResponse(responseCode = "400", description = "이미 가입한 전화번호 입니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.USER_SAVE_EXISTED_NUMBER_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
     @PostMapping
