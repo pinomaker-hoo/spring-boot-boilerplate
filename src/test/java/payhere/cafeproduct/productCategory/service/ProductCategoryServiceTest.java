@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
 import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategorySaveDto;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
 import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
 import payhere.cafeproduct.api.productCategory.service.ProductCategoryServiceImpl;
@@ -26,6 +27,7 @@ import payhere.cafeproduct.global.dto.UserDetailDto;
 import payhere.cafeproduct.global.enums.UserRole;
 import payhere.cafeproduct.global.exception.NotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -127,24 +129,38 @@ public class ProductCategoryServiceTest {
     @DisplayName("상품 카테고리 조회 - 상품 카테고리 정보를 찾을 수 없습니다.")
     public void 상품_카테고리_데이터_조회_데이터를_찾을_수_없습니다() throws Exception {
         // Given
+        UserDetailDto userDetailDto = generateUserDetailDto();
+        Integer productCategoryId = 1;
 
         // Mock
+        when(productCategoryJpaRepository.findProductCategoryById(anyInt(), anyInt())).thenReturn(null);
 
         // When
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            productCategoryService.findProductCategoryById(userDetailDto, productCategoryId);
+        });
 
         // Then
+        assertEquals("상품 카테고리 정보를 찾을 수 없습니다.", exception.getMessage());
     }
 
     @Test
     @DisplayName("상품 카테고리 조회 - ID 기반의 상품 카테고리 조회에 성공했습니다.")
     public void 상품_카테고리_데이터_조회_성공했습니다() throws Exception {
         // Given
+        UserDetailDto userDetailDto = generateUserDetailDto();
+        Integer productCategoryId = 1;
 
         // Mock
+        when(productCategoryJpaRepository.findProductCategoryById(anyInt(), anyInt()))
+                .thenReturn(new ProductCategoryDetail(1, "coffee", "Y", LocalDateTime.now()));
 
         // When
+        ResponseEntity<?> response = productCategoryService.findProductCategoryById(userDetailDto, productCategoryId);
 
         // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     @Test
