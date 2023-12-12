@@ -17,14 +17,17 @@ import org.springframework.http.ResponseEntity;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
 import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategorySaveDto;
+import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategoryUpdateDto;
 import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
 import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryWithUserId;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
 import payhere.cafeproduct.api.productCategory.service.ProductCategoryServiceImpl;
 import payhere.cafeproduct.api.user.domain.User;
 import payhere.cafeproduct.api.user.repository.UserJpaRepository;
 import payhere.cafeproduct.global.dto.UserDetailDto;
 import payhere.cafeproduct.global.enums.UserRole;
+import payhere.cafeproduct.global.exception.ForbiddenException;
 import payhere.cafeproduct.global.exception.NotFoundException;
 
 import java.time.LocalDateTime;
@@ -167,36 +170,71 @@ public class ProductCategoryServiceTest {
     @DisplayName("상품 카테고리 수정 - 상품 카테고리 정보를 찾을 수 없습니다.")
     public void 상품_카테고리_수정_데이터를_찾을_수_없습니다() throws Exception {
         // Given
+        RequestProductCategoryUpdateDto dto = RequestProductCategoryUpdateDto.builder()
+                .productCategoryId(1)
+                .name("tea")
+                .exposeYn("Y")
+                .build();
+
+        UserDetailDto userDetailDto = generateUserDetailDto();
 
         // Mock
+        when(productCategoryJpaRepository.findProductCategoryWithUserIdById(anyInt())).thenReturn(null);
 
         // When
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            productCategoryService.updateProductCategory(userDetailDto, dto);
+        });
 
         // Then
+        assertEquals("상품 카테고리 정보를 찾을 수 없습니다.", exception.getMessage());
     }
 
     @Test
     @DisplayName("상품 카테고리 수정 - 해당 상품 수정 권한이 없습니다.")
     public void 상품_카테고리_수정_권한이_없습니다() throws Exception {
         // Given
+        RequestProductCategoryUpdateDto dto = RequestProductCategoryUpdateDto.builder()
+                .productCategoryId(1)
+                .name("tea")
+                .exposeYn("Y")
+                .build();
+
+        UserDetailDto userDetailDto = generateUserDetailDto();
 
         // Mock
+        when(productCategoryJpaRepository.findProductCategoryWithUserIdById(anyInt())).thenReturn(new ProductCategoryWithUserId(1, 2));
 
         // When
+        ForbiddenException exception = assertThrows(ForbiddenException.class, () -> {
+            productCategoryService.updateProductCategory(userDetailDto, dto);
+        });
 
         // Then
+        assertEquals("해당 카테고리를 수정할 권한이 없습니다.", exception.getMessage());
     }
 
     @Test
     @DisplayName("상품 카테고리 수정 - 상품 카테고리 수정에 성공했습니다.")
     public void 상품_카테고리_수정_성공했습니다() throws Exception {
         // Given
+        RequestProductCategoryUpdateDto dto = RequestProductCategoryUpdateDto.builder()
+                .productCategoryId(1)
+                .name("tea")
+                .exposeYn("Y")
+                .build();
+
+        UserDetailDto userDetailDto = generateUserDetailDto();
 
         // Mock
+        when(productCategoryJpaRepository.findProductCategoryWithUserIdById(anyInt())).thenReturn(new ProductCategoryWithUserId(1, 1));
 
         // When
+        ResponseEntity<?> response = productCategoryService.updateProductCategory(userDetailDto, dto);
 
         // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     @Test
