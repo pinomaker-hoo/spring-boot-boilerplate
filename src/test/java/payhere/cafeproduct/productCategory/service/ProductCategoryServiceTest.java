@@ -31,6 +31,8 @@ import payhere.cafeproduct.global.exception.ForbiddenException;
 import payhere.cafeproduct.global.exception.NotFoundException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -238,15 +240,40 @@ public class ProductCategoryServiceTest {
     }
 
     @Test
+    @DisplayName("상품 카테고리 삭제 - 상품 카테고리 삭제 권한이 없습니다.")
+    public void 상품_카테고리_삭제_권한이_없습니다() throws Exception {
+        // Given
+        List<Integer> ids = new ArrayList<>(Arrays.asList(1, 2, 3));
+        UserDetailDto userDetailDto = generateUserDetailDto();
+
+        // Mock
+        when(productCategoryJpaRepository.isExistProductCategory(anyInt(), anyList())).thenReturn(true);
+
+        // When
+        ForbiddenException exception = assertThrows(ForbiddenException.class, () -> {
+            productCategoryService.deleteProductCategory(userDetailDto, ids);
+        });
+
+        // Then
+        assertEquals("해당 카테고리를 삭제할 권한이 없습니다.", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("상품 카테고리 삭제 - 상품 카테고리 삭제에 성공했습니다.")
     public void 상품_카테고리_삭제_성공했습니다() throws Exception {
         // Given
+        List<Integer> ids = new ArrayList<>(Arrays.asList(1, 2, 3));
+        UserDetailDto userDetailDto = generateUserDetailDto();
 
         // Mock
+        when(productCategoryJpaRepository.isExistProductCategory(anyInt(), anyList())).thenReturn(false);
 
         // When
+        ResponseEntity<?> response = productCategoryService.deleteProductCategory(userDetailDto, ids);
 
         // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     // ** Test UserDetailDto 생성
