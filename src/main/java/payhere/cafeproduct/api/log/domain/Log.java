@@ -1,4 +1,4 @@
-package payhere.cafeproduct.api.adminLog.domain;
+package payhere.cafeproduct.api.log.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,12 +11,12 @@ import payhere.cafeproduct.global.domain.BaseTimeCreatedEntity;
 import payhere.cafeproduct.global.enums.LogType;
 
 @Entity
-@Table(name = "TB_ADMIN_LOG")
+@Table(name = "TB_LOG")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdminLog extends BaseTimeCreatedEntity {
+public class Log extends BaseTimeCreatedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

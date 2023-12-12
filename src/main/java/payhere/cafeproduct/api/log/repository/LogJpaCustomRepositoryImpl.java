@@ -1,9 +1,9 @@
-package payhere.cafeproduct.api.adminLog.repository;
+package payhere.cafeproduct.api.log.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class AdminLogJpaCustomRepositoryImpl implements AdminLogJpaCustomRepository{
+public class LogJpaCustomRepositoryImpl implements LogJpaCustomRepository {
     private final JPAQueryFactory queryFactory;
 }
