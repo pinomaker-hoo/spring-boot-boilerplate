@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategorySaveDto;
+import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategoryUpdateDto;
 import payhere.cafeproduct.api.productCategory.service.ProductCategoryService;
 import payhere.cafeproduct.global.dto.SwaggerExampleValue;
 import payhere.cafeproduct.global.dto.UserDetailDto;
@@ -71,4 +72,19 @@ public class ProductCategoryController {
 
         return productCategoryService.findProductCategoryById(userDetailDto, productCategoryId);
     }
+
+    @Operation(summary = "Save Product Category", description = "상품 카테고리 생성, 이름과 노출 여부를 받아 상품 카테고리를 생성합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "상품 카테고리 정보를 수정합니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.PRODUCT_CATEGORY_UPDATE_RESPONSE))),
+            @ApiResponse(responseCode = "401", description = "토큰이 유효하지 않습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UN_AUTHENTICATION_RESPONSE)})),
+            @ApiResponse(responseCode = "403", description = "해당 카테고리를 수정할 권한이 없습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.PRODUCT_CATEGORY_UPDATE_FORBIDDEN_RESPONSE)})),
+            @ApiResponse(responseCode = "404", description = "상품 카테고리 정보를 찾을 수 없습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.PRODUCT_CATEGORY_UPDATE_NOT_FOUND_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
+    @PutMapping
+    public ResponseEntity<?> updateProductCategory(HttpServletRequest request, @Valid @RequestBody RequestProductCategoryUpdateDto dto) throws Exception {
+        UserDetailDto userDetailDto = jwtTokenExtractor.extractUserId(request);
+
+        return productCategoryService.updateProductCategory(userDetailDto, dto);
+    }
+
 }

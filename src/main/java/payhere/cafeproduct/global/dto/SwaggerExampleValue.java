@@ -23,4 +23,10 @@ public class SwaggerExampleValue {
     // ** GET : /api/v1/product/category/{id}
     public static final String PRODUCT_CATEGORY_FIND_ONE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품 카테고리 정보를 조회합니다.\"},\"data\":{\"id\":10,\"name\":\"coffee\",\"exposeYn\":\"Y\",\"createdDate\":\"2023-12-13T01:28:37.626824\"}}";
     public static final String PRODUCT_CATEGORY_FIND_ONE_NOT_FOUND_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"상품 카테고리 정보를 찾을 수 없습니다.\"},\"data\":null}";
+
+    // ** PUT : /api/v1/product/category
+    public static final String PRODUCT_CATEGORY_UPDATE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품 카테고리 정보를 수정합니다.\"},\"data\":null}";
+    public static final String PRODUCT_CATEGORY_UPDATE_NOT_FOUND_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"상품 카테고리 정보를 찾을 수 없습니다.\"},\"data\":null}";
+    public static final String PRODUCT_CATEGORY_UPDATE_FORBIDDEN_RESPONSE = "{\"meta\":{\"code\":403,\"message\":\"해당 카테고리를 수정할 권한이 없습니다.\"},\"data\":null}";
+
 }

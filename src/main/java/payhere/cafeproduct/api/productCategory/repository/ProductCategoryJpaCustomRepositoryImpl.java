@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import payhere.cafeproduct.api.productCategory.domain.QProductCategory;
 import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
 import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryWithUserId;
 
 @RequiredArgsConstructor
 public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJpaCustomRepository {
@@ -48,8 +49,22 @@ public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJp
                         pc.exposeYn,
                         pc.createdDate
                 )).from(pc).where(
-                    pc.id.eq(productCategoryId).and(pc.user.id.eq(userId))
-            ).fetchOne();
+                pc.id.eq(productCategoryId).and(pc.user.id.eq(userId))
+        ).fetchOne();
+    }
+
+    @Override
+    public ProductCategoryWithUserId findProductCategoryWithUserIdById(Integer productCategoryId) {
+        QProductCategory pc = QProductCategory.productCategory;
+
+        return queryFactory.select(
+                Projections.constructor(
+                        ProductCategoryWithUserId.class,
+                        pc.id,
+                        pc.user.id
+                )).from(pc).where(
+                pc.id.eq(productCategoryId)
+        ).fetchOne();
     }
 
     private BooleanExpression ltProductCategoryId(Integer productCategoryId) {
