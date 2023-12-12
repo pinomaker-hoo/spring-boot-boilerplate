@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
-import payhere.cafeproduct.api.user.domain.User;
 import payhere.cafeproduct.global.domain.BaseTimeCreatedEntity;
 import payhere.cafeproduct.global.enums.LogType;
 
@@ -30,10 +29,10 @@ public class Log extends BaseTimeCreatedEntity {
     private String log;
 
     @Comment("로그 데이터")
-    @Column(nullable = false, name = "log_data", length = 50)
+    @Column(nullable = true, name = "log_data", length = 50)
     private String logData;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Comment("유저 ID")
+    @Column(nullable = false, name = "user_id")
+    private Long userId;
 }
