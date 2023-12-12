@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
         TokenDto tokenDto = jwtTokenProvider.issueToken(Long.valueOf(loginUser.getId()), UserRole.ROLE_MEMBER);
 
-        logJpaRepository.save(Log.builder().logType(LogType.LOGIN).log("로그인 했습니다.").userId(Long.valueOf(loginUser.getId())).build());
+        logJpaRepository.save(Log.builder().logType(LogType.LOGIN).log("로그인 했습니다.").userId(loginUser.getId()).build());
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "로그인에 성공했습니다.", tokenDto);
     }

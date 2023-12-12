@@ -25,14 +25,14 @@ public class Log extends BaseTimeCreatedEntity {
     private LogType logType;
 
     @Comment("로그 내용")
-    @Column(nullable = false, name = "log", columnDefinition = "TEXT")
+    @Column(nullable = false, name = "log", length = 50)
     private String log;
 
     @Comment("로그 데이터")
-    @Column(nullable = true, name = "log_data", length = 50)
+    @Column(nullable = true, name = "log_data", columnDefinition = "TEXT")
     private String logData;
 
     @Comment("유저 ID")
     @Column(nullable = false, name = "user_id")
-    private Long userId;
+    private Integer userId;
 }
