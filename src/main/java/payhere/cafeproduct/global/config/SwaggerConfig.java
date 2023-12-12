@@ -21,7 +21,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi chatOpenApi() {
-        String[] paths = {"/v1/**"};
+        String[] paths = {"/api/**"};
 
         return GroupedOpenApi.builder()
                 .group("Payhere API")
