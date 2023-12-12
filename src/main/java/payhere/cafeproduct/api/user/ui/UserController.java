@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import payhere.cafeproduct.api.user.event.dto.RequestUserLoginDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserSaveDto;
 import payhere.cafeproduct.api.user.service.UserService;
 import payhere.cafeproduct.global.dto.SwaggerExampleValue;
@@ -34,5 +35,16 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> saveUser(@Valid @RequestBody RequestUserSaveDto dto) throws Exception {
         return userService.saveUser(dto);
+    }
+
+    @Operation(summary = "Login", description = "로그인, 전화번호와 비밀번호를 받아 유효성 및 유저 조회, 비밀번호 검증 후 토큰을 발급합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그인에 성공했습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.USER_LOGIN_RESPONSE))),
+            @ApiResponse(responseCode = "400", description = "비밀번호가 같지 않습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.USER_LOGIN_NOT_MATCH_PASSWORD_RESPONSE)})),
+            @ApiResponse(responseCode = "404", description = "유저를 찾을 수 없습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.USER_LOGIN_NOT_FOUND_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody RequestUserLoginDto dto) throws Exception {
+        return userService.loginUser(dto);
     }
 }
