@@ -11,6 +11,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.user.event.dto.RequestUserLoginDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserSaveDto;
 import payhere.cafeproduct.api.user.event.vo.LoginUser;
@@ -41,6 +42,9 @@ public class UserServiceTest {
 
     @Mock
     private JwtTokenProvider jwtTokenProvider;
+
+    @Mock
+    private LogJpaRepository logJpaRepository;
 
     @Test
 
