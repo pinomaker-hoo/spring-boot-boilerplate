@@ -47,7 +47,7 @@ public class UserServiceTest {
     private LogJpaRepository logJpaRepository;
 
     @Test
-
+    @DisplayName("회원가입 - 전화번호 중복일 수 없습니다.")
     public void 회원가입_전화번호는_중복일_수_없습니다() throws Exception {
         // Given
         RequestUserSaveDto request = RequestUserSaveDto.builder()
@@ -68,6 +68,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("회원가입 - 성공")
     public void 회원가입_성공했습니다() throws Exception {
         // Given
         RequestUserSaveDto request = RequestUserSaveDto.builder()
@@ -88,6 +89,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("로그인 - 유저를 찾을 수 없습니다.")
     public void 로그인_유저를_찾을_수_없습니다() throws Exception {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
@@ -108,6 +110,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("로그인 - 비밀번호가 같지 않습니다.")
     public void 로그인_비밀번호가_같지_않습니다() throws Exception {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
@@ -131,6 +134,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("로그인 - 로그인에 성공했습니다.")
     public void 로그인_성공했습니다() throws Exception {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
