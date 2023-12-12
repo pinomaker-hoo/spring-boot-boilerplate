@@ -8,5 +8,7 @@ import payhere.cafeproduct.global.dto.UserDetailDto;
 public interface ProductCategoryService {
     ResponseEntity<?> saveProductCategory(UserDetailDto userDetailDto, RequestProductCategorySaveDto dto) throws Exception;
 
-    ResponseEntity<?> findProductCategoryList(UserDetailDto userDetailDto, Pageable pageable, Integer productCategoryId);
+    ResponseEntity<?> findProductCategoryList(UserDetailDto userDetailDto, Pageable pageable, Integer productCategoryId) throws Exception;
+
+    ResponseEntity<?> findProductCategoryById(UserDetailDto userDetailDto, Integer productCategoryId) throws Exception;
 }

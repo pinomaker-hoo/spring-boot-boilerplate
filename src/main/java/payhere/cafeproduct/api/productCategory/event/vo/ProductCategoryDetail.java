@@ -11,6 +11,5 @@ public class ProductCategoryDetail {
     private Integer id;
     private String name;
     private String exposeYn;
-    private Integer orderId;
     private LocalDateTime createdDate;
 }

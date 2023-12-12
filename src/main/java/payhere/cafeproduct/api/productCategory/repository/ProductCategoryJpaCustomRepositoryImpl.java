@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import payhere.cafeproduct.api.productCategory.domain.QProductCategory;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
 import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
 
 @RequiredArgsConstructor
@@ -33,6 +34,22 @@ public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJp
                 .fetchResults();
 
         return new PageImpl(list.getResults(), pageable, list.getTotal());
+    }
+
+    @Override
+    public ProductCategoryDetail findProductCategoryById(Integer userId, Integer productCategoryId) {
+        QProductCategory pc = QProductCategory.productCategory;
+
+        return queryFactory.select(
+                Projections.constructor(
+                        ProductCategoryDetail.class,
+                        pc.id,
+                        pc.name,
+                        pc.exposeYn,
+                        pc.createdDate
+                )).from(pc).where(
+                    pc.id.eq(productCategoryId).and(pc.user.id.eq(userId))
+            ).fetchOne();
     }
 
     private BooleanExpression ltProductCategoryId(Integer productCategoryId) {

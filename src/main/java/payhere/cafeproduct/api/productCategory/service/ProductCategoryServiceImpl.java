@@ -11,6 +11,7 @@ import payhere.cafeproduct.api.log.domain.Log;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
 import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategorySaveDto;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
 import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
 import payhere.cafeproduct.api.user.domain.User;
@@ -60,11 +61,22 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     }
 
     @Override
-    public ResponseEntity<?> findProductCategoryList(UserDetailDto userDetailDto, Pageable pageable, Integer productCategoryId) {
+    public ResponseEntity<?> findProductCategoryList(UserDetailDto userDetailDto, Pageable pageable, Integer productCategoryId) throws Exception {
         Page<ProductCategoryInfo> response = productCategoryJpaRepository.findProductCategoryList(userDetailDto.getUserId(), pageable, productCategoryId);
 
         Pagination data = Pagination.builder().totalPages(response.getTotalPages()).currentPage(response.getNumber()).totalItems(response.getTotalElements()).data(response.getContent()).build();
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "상품 카테고리 리스트를 조회합니다.", data);
+    }
+
+    @Override
+    public ResponseEntity<?> findProductCategoryById(UserDetailDto userDetailDto, Integer productCategoryId) throws Exception {
+        ProductCategoryDetail response = productCategoryJpaRepository.findProductCategoryById(userDetailDto.getUserId(), productCategoryId);
+
+        if (response == null) {
+            throw new NotFoundException("상품 카테고리 정보를 찾을 수 없습니다.");
+        }
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "상품 카테고리 정보를 조회합니다.", response);
     }
 }

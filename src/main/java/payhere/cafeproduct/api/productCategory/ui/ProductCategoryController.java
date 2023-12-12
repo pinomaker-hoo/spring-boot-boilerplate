@@ -58,4 +58,17 @@ public class ProductCategoryController {
 
         return productCategoryService.findProductCategoryList(userDetailDto, pageable, productCategoryId);
     }
+
+    @Operation(summary = "Find Product Category By Id", description = "상품 카테고리 조회, 상품 카테고리 ID를 기반으로 상품 카테고리를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "상품 카테고리 리스트를 조회합니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.PRODUCT_CATEGORY_FIND_ONE_RESPONSE))),
+            @ApiResponse(responseCode = "401", description = "토큰이 유효하지 않습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UN_AUTHENTICATION_RESPONSE)})),
+            @ApiResponse(responseCode = "404", description = "상품 카테고리 정보를 찾을 수 없습니다..", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.PRODUCT_CATEGORY_FIND_ONE_NOT_FOUND_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
+    @GetMapping("/{id}")
+    private ResponseEntity<?> findProductCategoryById(HttpServletRequest request, @PathVariable(name = "id") Integer productCategoryId) throws Exception {
+        UserDetailDto userDetailDto = jwtTokenExtractor.extractUserId(request);
+
+        return productCategoryService.findProductCategoryById(userDetailDto, productCategoryId);
+    }
 }
