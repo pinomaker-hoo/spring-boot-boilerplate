@@ -7,6 +7,6 @@ import payhere.cafeproduct.global.enums.UserRole;
 @Data
 @Builder
 public class UserDetailDto {
-    private Long userId;
+    private Integer userId;
     private UserRole role;
 }

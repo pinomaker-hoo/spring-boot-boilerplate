@@ -31,7 +31,7 @@ public class JwtTokenExtractor {
         String encodedUserId = String.valueOf(claims.get("id"));
         String encodedRole = String.valueOf(claims.get("role"));
 
-        Long decodedUserId = Long.valueOf(encryptionUtils.decrypt(encodedUserId));
+        Integer decodedUserId = Integer.valueOf(encryptionUtils.decrypt(encodedUserId));
         UserRole decodeedRole = UserRole.valueOf(encryptionUtils.decrypt(encodedRole));
 
         return UserDetailDto.builder().userId(decodedUserId).role(decodeedRole).build();
