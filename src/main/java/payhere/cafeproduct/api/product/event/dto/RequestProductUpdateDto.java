@@ -3,15 +3,13 @@ package payhere.cafeproduct.api.product.event.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import payhere.cafeproduct.global.enums.ProductSize;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 public class RequestProductUpdateDto {
     @Schema(example = "1")

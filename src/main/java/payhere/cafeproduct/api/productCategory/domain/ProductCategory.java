@@ -1,10 +1,7 @@
 package payhere.cafeproduct.api.productCategory.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 import payhere.cafeproduct.api.user.domain.User;
 import payhere.cafeproduct.global.domain.BaseTimeEntity;
@@ -14,6 +11,7 @@ import payhere.cafeproduct.global.domain.BaseTimeEntity;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Builder
 public class ProductCategory extends BaseTimeEntity {
     @Id
