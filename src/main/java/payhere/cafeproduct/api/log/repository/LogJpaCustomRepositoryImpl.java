@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import payhere.cafeproduct.api.log.domain.QLog;
 import payhere.cafeproduct.api.log.event.vo.LogDetail;
-import payhere.cafeproduct.api.productCategory.domain.QProductCategory;
 
 @RequiredArgsConstructor
 public class LogJpaCustomRepositoryImpl implements LogJpaCustomRepository {

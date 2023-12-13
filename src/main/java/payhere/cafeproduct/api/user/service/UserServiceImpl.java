@@ -23,7 +23,6 @@ import payhere.cafeproduct.global.exception.BadRequestException;
 import payhere.cafeproduct.global.exception.NotFoundException;
 import payhere.cafeproduct.global.jwt.JwtTokenProvider;
 import payhere.cafeproduct.global.jwt.JwtTokenValidator;
-import payhere.cafeproduct.global.utils.AESUtil;
 import payhere.cafeproduct.global.utils.EncryptionUtils;
 
 @RequiredArgsConstructor
