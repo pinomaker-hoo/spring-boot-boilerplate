@@ -11,6 +11,7 @@ import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.product.domain.Product;
 import payhere.cafeproduct.api.product.event.dto.RequestProductSaveDto;
 import payhere.cafeproduct.api.product.event.dto.RequestProductUpdateDto;
+import payhere.cafeproduct.api.product.event.vo.ProductDetail;
 import payhere.cafeproduct.api.product.event.vo.ProductWithUserId;
 import payhere.cafeproduct.api.product.repository.ProductJpaRepository;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
@@ -126,5 +127,16 @@ public class ProductServiceImpl implements ProductService {
         );
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "상품을 삭제합니다.", null);
+    }
+
+    @Override
+    public ResponseEntity<?> findProductById(UserDetailDto userDetailDto, Long productId) throws Exception {
+        ProductDetail response = productJpaRepository.findProductById(userDetailDto.getUserId(), productId);
+
+        if (response == null) {
+            throw new NotFoundException("상품 정보를 찾을 수 없습니다.");
+        }
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "상품 정보를 조회합니다.", response);
     }
 }

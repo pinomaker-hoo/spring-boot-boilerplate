@@ -13,4 +13,6 @@ public interface ProductService {
     ResponseEntity<?> updateProduct(UserDetailDto userDetailDto, RequestProductUpdateDto dto) throws Exception;
 
     ResponseEntity<?> deleteProduct(UserDetailDto userDetailDto, List<Long> ids) throws  Exception;
+
+    ResponseEntity<?> findProductById(UserDetailDto userDetailDto, Long productId) throws Exception;
 }

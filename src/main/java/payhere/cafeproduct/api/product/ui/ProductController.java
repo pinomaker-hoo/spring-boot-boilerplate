@@ -43,6 +43,19 @@ public class ProductController {
         return productService.saveProduct(userDetailDto, dto);
     }
 
+    @Operation(summary = "Find Product By Id", description = "상품 조회, 상품 ID를 기반으로 상품을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "상품을 조회합니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.PRODUCT_FIND_RESPONSE))),
+            @ApiResponse(responseCode = "401", description = "토큰이 유효하지 않습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UN_AUTHENTICATION_RESPONSE)})),
+            @ApiResponse(responseCode = "404", description = "상품 정보를 찾을 수 없습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.PRODUCT_FIND_NOT_FOUND_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
+    @GetMapping("/{id}")
+    private ResponseEntity<?> findProductCategoryById(HttpServletRequest request, @PathVariable(name = "id") Long productId) throws Exception {
+        UserDetailDto userDetailDto = jwtTokenExtractor.extractUserId(request);
+
+        return productService.findProductById(userDetailDto, productId);
+    }
+
     @Operation(summary = "Update Product", description = "상품 수정, 상품 정보를 받아 권한 체크 후 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "상품을 수정합니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.PRODUCT_UPDATE_RESPONSE))),
