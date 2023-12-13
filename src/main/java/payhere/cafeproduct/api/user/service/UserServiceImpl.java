@@ -23,6 +23,7 @@ import payhere.cafeproduct.global.exception.BadRequestException;
 import payhere.cafeproduct.global.exception.NotFoundException;
 import payhere.cafeproduct.global.jwt.JwtTokenProvider;
 import payhere.cafeproduct.global.jwt.JwtTokenValidator;
+import payhere.cafeproduct.global.utils.AESUtil;
 import payhere.cafeproduct.global.utils.EncryptionUtils;
 
 @RequiredArgsConstructor
@@ -38,8 +39,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> saveUser(RequestUserSaveDto dto) throws Exception {
+        // ** 전회번호 암호화
+        String encodedPhoneNumber = encryptionUtils.encrypt(dto.getPhoneNumber());
+
+        log.info(encodedPhoneNumber);
+
         // ** 전화번호 기반 유저 조회
-        boolean existUserByPhoneNumber = userJpaRepository.existByPhoneNumber(dto.getPhoneNumber());
+        boolean existUserByPhoneNumber = userJpaRepository.existByPhoneNumber(encodedPhoneNumber);
 
         log.info("전화번호를 가진 유저 존재 여부 : {}", existUserByPhoneNumber);
 
@@ -50,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
         // ** 유저 생성
         userJpaRepository.save(User.builder()
-                .phoneNumber(dto.getPhoneNumber())
+                .phoneNumber(encodedPhoneNumber)
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build());
 
@@ -61,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> loginUser(RequestUserLoginDto dto) throws Exception {
         // ** Login 유저 조회
-        LoginUser loginUser = userJpaRepository.findUserByPhoneNumber(dto.getPhoneNumber());
+        LoginUser loginUser = userJpaRepository.findUserByPhoneNumber(encryptionUtils.encrypt(dto.getPhoneNumber()));
 
         // ** 데이터 조회 실패
         if (loginUser == null) {

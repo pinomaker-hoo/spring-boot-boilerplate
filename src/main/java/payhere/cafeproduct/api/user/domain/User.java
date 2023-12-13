@@ -20,7 +20,7 @@ public class User extends BaseTimeEntity {
     private Integer id;
 
     @Comment("전화번호")
-    @Column(length = 15, unique = true, nullable = false, name = "phone_number")
+    @Column(length = 30, unique = true, nullable = false, name = "phone_number")
     private String phoneNumber;
 
     @Comment("비밀번호")
