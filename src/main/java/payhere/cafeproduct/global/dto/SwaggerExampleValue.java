@@ -48,5 +48,8 @@ public class SwaggerExampleValue {
 
     // ** GET : /api/v1/product/{id}
     public static final String PRODUCT_FIND_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품 정보를 조회합니다.\"},\"data\":{\"id\":3,\"price\":30000,\"cost\":10000,\"name\":\"아메리카노\",\"code\":\"ABCD_EF@_123\",\"expirationDate\":\"2024-12-31T12:00:00\",\"size\":\"SMALL\",\"soldOutYn\":\"N\",\"exposeYn\":\"Y\",\"categoryName\":\"coffee\",\"createdDate\":\"2023-12-13T09:45:05.826691\"}}";
-    public static final String PRODUCT_FIND_NOT_FOUND_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"상품 정보를 찾을 수 없습니다.\"},\"data\":null}";;
+    public static final String PRODUCT_FIND_NOT_FOUND_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"상품 정보를 찾을 수 없습니다.\"},\"data\":null}";
+
+    // ** GET : /api/v1/product
+    public static final String PRODUCT_FIND_LIST_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품 리스트를 조회합니다.\"},\"data\":{\"totalPages\":1,\"currentPage\":0,\"totalItems\":1,\"data\":[{\"id\":8,\"price\":30000,\"cost\":10000,\"name\":\"카페라떼\",\"code\":\"ABCD_EF@_123\",\"expirationDate\":\"2024-12-31T12:00:00\",\"size\":\"SMALL\",\"soldOutYn\":\"N\",\"exposeYn\":\"Y\",\"categoryName\":\"coffee\",\"createdDate\":\"2023-12-13T09:45:06.702814\"}]}}";
 }

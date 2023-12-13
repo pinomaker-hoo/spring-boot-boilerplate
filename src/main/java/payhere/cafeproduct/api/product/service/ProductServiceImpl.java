@@ -2,6 +2,8 @@ package payhere.cafeproduct.api.product.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import payhere.cafeproduct.api.product.repository.ProductJpaRepository;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
 import payhere.cafeproduct.global.dto.CommonResponse;
+import payhere.cafeproduct.global.dto.Pagination;
 import payhere.cafeproduct.global.dto.UserDetailDto;
 import payhere.cafeproduct.global.enums.LogType;
 import payhere.cafeproduct.global.exception.ForbiddenException;
@@ -24,8 +27,10 @@ import payhere.cafeproduct.global.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -139,5 +144,24 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "상품 정보를 조회합니다.", response);
+    }
+
+    @Override
+    public ResponseEntity<?> findProductList(UserDetailDto userDetailDto, String name, Long productId, Pageable pageable) {
+        Page<ProductDetail> response = productJpaRepository.findProductList(userDetailDto.getUserId(), name, productId, pageable);
+
+        Pagination data = Pagination.builder().totalPages(response.getTotalPages()).currentPage(response.getNumber()).totalItems(response.getTotalElements()).data(response.getContent()).build();
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "상품 리스트를 조회합니다.", data);
+    }
+
+    private String getNameConsonant(String word) {
+
+        String[] CHO = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"};
+
+        return Arrays.stream(word.split("")).map(x -> {
+            char cho = (char) ((x.charAt(0) - 0xAC00) / 28 / 21);
+            return ((int) cho > 19 || (int) cho < 0) ? "" : CHO[(int) cho];
+        }).collect(Collectors.joining(""));
     }
 }
