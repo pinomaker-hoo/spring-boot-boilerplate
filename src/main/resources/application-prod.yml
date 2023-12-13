@@ -3,3 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/payhere
     username: admin
     password: qwer1595@!
+
+springdoc:
+  swagger-ui:
+    enabled: false
