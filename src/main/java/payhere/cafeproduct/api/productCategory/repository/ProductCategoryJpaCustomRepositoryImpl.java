@@ -51,7 +51,7 @@ public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJp
                         pc.exposeYn,
                         pc.createdDate
                 )).from(pc).where(
-                pc.id.eq(productCategoryId).and(pc.user.id.eq(userId))
+                pc.id.eq(productCategoryId).and(pc.user.id.eq(userId)).and(pc.delYn.eq("N"))
         ).fetchOne();
     }
 
@@ -65,7 +65,7 @@ public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJp
                         pc.id,
                         pc.user.id
                 )).from(pc).where(
-                pc.id.eq(productCategoryId)
+                pc.id.eq(productCategoryId).and(pc.delYn.eq("N"))
         ).fetchOne();
     }
 
@@ -77,7 +77,7 @@ public class ProductCategoryJpaCustomRepositoryImpl implements ProductCategoryJp
 
         count = queryFactory.select(pc.id.count())
                 .from(pc)
-                .where(pc.user.id.ne(userId).and(pc.id.in(ids)))
+                .where(pc.user.id.ne(userId).and(pc.id.in(ids)).and(pc.delYn.eq("N")))
                 .fetchCount();
 
         return count > 0 ? true : false;

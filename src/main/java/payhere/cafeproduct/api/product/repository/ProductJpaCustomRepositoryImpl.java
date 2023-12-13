@@ -45,7 +45,7 @@ public class ProductJpaCustomRepositoryImpl implements ProductJpaCustomRepositor
                 .from(p)
                 .where(p.productCategory.user.id.ne(userId).and(
                         p.id.in(ids)
-                )).fetchCount();
+                ).and(p.delYn.eq("N"))).fetchCount();
 
         return count > 0 ? true : false;
     }
