@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import payhere.cafeproduct.api.product.domain.Product;
-import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
 import payhere.cafeproduct.global.enums.ProductSize;
 
 import java.time.LocalDateTime;

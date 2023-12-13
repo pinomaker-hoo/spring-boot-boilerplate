@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import payhere.cafeproduct.global.dto.TokenDto;
 import payhere.cafeproduct.global.enums.UserRole;
-import payhere.cafeproduct.global.exception.ServerException;
 import payhere.cafeproduct.global.utils.EncryptionUtils;
 
 import java.security.PrivateKey;
