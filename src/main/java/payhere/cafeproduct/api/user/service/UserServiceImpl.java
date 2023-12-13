@@ -1,5 +1,6 @@
 package payhere.cafeproduct.api.user.service;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import payhere.cafeproduct.api.log.domain.Log;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.user.domain.User;
+import payhere.cafeproduct.api.user.event.dto.RequestTokenReissueDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserLoginDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserSaveDto;
 import payhere.cafeproduct.api.user.event.vo.LoginUser;
@@ -20,6 +22,8 @@ import payhere.cafeproduct.global.enums.UserRole;
 import payhere.cafeproduct.global.exception.BadRequestException;
 import payhere.cafeproduct.global.exception.NotFoundException;
 import payhere.cafeproduct.global.jwt.JwtTokenProvider;
+import payhere.cafeproduct.global.jwt.JwtTokenValidator;
+import payhere.cafeproduct.global.utils.EncryptionUtils;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -29,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final LogJpaRepository logJpaRepository;
+    private final JwtTokenValidator jwtTokenValidator;
+    private final EncryptionUtils encryptionUtils;
 
     @Override
     public ResponseEntity<?> saveUser(RequestUserSaveDto dto) throws Exception {
@@ -68,11 +74,32 @@ public class UserServiceImpl implements UserService {
         }
 
         // ** Token 생성
-        TokenDto tokenDto = jwtTokenProvider.issueToken(Long.valueOf(loginUser.getId()), UserRole.ROLE_MEMBER);
+        TokenDto tokenDto = jwtTokenProvider.issueToken(loginUser.getId(), UserRole.ROLE_MEMBER);
 
         // ** 로그인 기록 생성
         logJpaRepository.save(Log.builder().logType(LogType.LOGIN).log("로그인 했습니다.").userId(loginUser.getId()).build());
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "로그인에 성공했습니다.", tokenDto);
+    }
+
+    @Override
+    public ResponseEntity<?> reissueToken(RequestTokenReissueDto dto) throws Exception {
+        // ** RefreshToken 유효성 검사
+        jwtTokenValidator.validateToken(dto.getRefreshToken());
+
+        // ** 유저 정보 추출
+        Claims claims = jwtTokenValidator.getClaimsFromToken(dto.getRefreshToken());
+
+        String encodedUserId = String.valueOf(claims.get("id"));
+        String encodedRole = String.valueOf(claims.get("role"));
+
+        // ** 정보 디코딩
+        Integer decodedUserId = Integer.valueOf(encryptionUtils.decrypt(encodedUserId));
+        UserRole decodedRole = UserRole.valueOf(encryptionUtils.decrypt(encodedRole));
+
+        // ** 토큰 생성
+        TokenDto tokenDto = jwtTokenProvider.reissueToken(decodedUserId, decodedRole, dto.getRefreshToken());
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "토큰을 재발급 받습니다.", tokenDto);
     }
 }

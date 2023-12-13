@@ -29,7 +29,7 @@ public class JwtTokenProvider {
     @Value("${jwt.refreshTokenValidityInSeconds}")
     private String refreshTokenValidationTime;
 
-    public TokenDto issueToken(Long userId, UserRole role) throws Exception {
+    public TokenDto issueToken(Integer userId, UserRole role) throws Exception {
         final String accessToken = generateToken(userId, role, Long.valueOf(accessTokenValidationTime));
         final String refreshToken = generateToken(userId, role, Long.valueOf(refreshTokenValidationTime));
 
@@ -39,7 +39,7 @@ public class JwtTokenProvider {
                 .build();
     }
 
-    public TokenDto reissueToken(Long userId, UserRole role, String refreshToken) throws Exception {
+    public TokenDto reissueToken(Integer userId, UserRole role, String refreshToken) throws Exception {
         final String accessToken = generateToken(userId, role, Long.valueOf(accessTokenValidationTime));
 
         return TokenDto.builder()
@@ -48,7 +48,7 @@ public class JwtTokenProvider {
                 .build();
     }
 
-    private String generateToken(Long userId, UserRole role, Long tokenValidationTime) throws Exception {
+    private String generateToken(Integer userId, UserRole role, Long tokenValidationTime) throws Exception {
         final Map<String, Object> claims = createClaims(userId, role);
         final PrivateKey privateKey = jwtConfig.getPrivateKey();
 
@@ -60,7 +60,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    private Map<String, Object> createClaims(Long userId, UserRole role) {
+    private Map<String, Object> createClaims(Integer userId, UserRole role) {
         Map<String, Object> claims = new HashMap<>();
         String encodedId = encryptionUtils.encrypt(String.valueOf(userId));
         String encodedRole = encryptionUtils.encrypt(String.valueOf(role));

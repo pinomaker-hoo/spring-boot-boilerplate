@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import payhere.cafeproduct.api.user.event.dto.RequestTokenReissueDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserLoginDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserSaveDto;
 import payhere.cafeproduct.api.user.service.UserService;
@@ -46,5 +47,14 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody RequestUserLoginDto dto) throws Exception {
         return userService.loginUser(dto);
+    }
+
+    @Operation(summary = "Reissue Token", description = "토큰 재발급, refresh token 유효성 검사 후 토큰을 재발급 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "토큰을 재발급 받습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.REISSUE_TOKEN_RESPONSE))),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
+    @PostMapping("/reissue")
+    public ResponseEntity<?> reissueToken(@Valid @RequestBody RequestTokenReissueDto dto) throws Exception {
+        return userService.reissueToken(dto);
     }
 }
