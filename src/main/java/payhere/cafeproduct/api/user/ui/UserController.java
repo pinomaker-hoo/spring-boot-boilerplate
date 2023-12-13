@@ -45,7 +45,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "유저를 찾을 수 없습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.USER_LOGIN_NOT_FOUND_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody RequestUserLoginDto dto) throws Exception {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody RequestUserLoginDto dto) throws Exception {
         return userService.loginUser(dto);
     }
 

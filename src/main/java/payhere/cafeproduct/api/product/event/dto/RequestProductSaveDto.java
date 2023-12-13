@@ -3,6 +3,7 @@ package payhere.cafeproduct.api.product.event.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,10 +28,12 @@ public class RequestProductSaveDto {
     private Integer cost;
 
     @Schema(example = "아메리카노")
+    @Size(max = 20, message = "최대 20자까지 가능합니다.")
     @NotNull
     private String name;
 
     @Schema(example = "ABCD_EF@_123")
+    @Size(max = 30, message = "최대 30자까지 가능합니다.")
     @NotNull
     private String code;
 

@@ -3,6 +3,7 @@ package payhere.cafeproduct.api.productCategory.event.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -16,6 +17,7 @@ public class RequestProductCategoryUpdateDto {
     private Integer productCategoryId;
 
     @Schema(example = "coffee")
+    @Size(max = 30, message = "최대 30자까지 가능합니다.")
     @NotNull
     private String name;
 
