@@ -15,6 +15,7 @@ import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.product.domain.Product;
 import payhere.cafeproduct.api.product.event.dto.RequestProductSaveDto;
 import payhere.cafeproduct.api.product.event.dto.RequestProductUpdateDto;
+import payhere.cafeproduct.api.product.event.vo.ProductDetail;
 import payhere.cafeproduct.api.product.event.vo.ProductWithUserId;
 import payhere.cafeproduct.api.product.repository.ProductJpaRepository;
 import payhere.cafeproduct.api.product.service.ProductServiceImpl;
@@ -127,11 +128,41 @@ public class ProductServiceTest {
     @Test
     @DisplayName("상품 조회 - 상품 정보를 찾을 수 없습니다.")
     public void 상품_조회_데이터를_찾을_수_없습니다() throws Exception {
+        // Given
+        UserDetailDto userDetailDto = generateUserDetailDto();
+        Long productId = 1L;
+
+        // Mock
+        when(productJpaRepository.findProductById(anyInt(), anyLong()))
+                .thenReturn(null);
+
+        // When
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            productService.findProductById(userDetailDto, productId);
+        });
+
+        // Then
+        assertEquals("상품 정보를 찾을 수 없습니다.", exception.getMessage());
     }
 
     @Test
     @DisplayName("상품 조회 - 상품 정보 조회에 성공했습니다.")
     public void 상품_조회_성공_했습니다() throws Exception {
+        // Given
+        UserDetailDto userDetailDto = generateUserDetailDto();
+        Long productId = 1L;
+
+        // Mock
+        when(productJpaRepository.findProductById(anyInt(), anyLong()))
+                .thenReturn(new ProductDetail(1L, 30000, 10000, "ICE TEA", "ABCD_EF@_123", LocalDateTime.now(),
+                        ProductSize.LARGE, "Y", "Y", "TEA", LocalDateTime.now()));
+
+        // When
+        ResponseEntity<?> response = productService.findProductById(userDetailDto, productId);
+
+        // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     @Test
