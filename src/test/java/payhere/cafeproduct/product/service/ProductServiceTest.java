@@ -9,9 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
@@ -22,14 +19,7 @@ import payhere.cafeproduct.api.product.event.vo.ProductWithUserId;
 import payhere.cafeproduct.api.product.repository.ProductJpaRepository;
 import payhere.cafeproduct.api.product.service.ProductServiceImpl;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
-import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategorySaveDto;
-import payhere.cafeproduct.api.productCategory.event.dto.RequestProductCategoryUpdateDto;
-import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryDetail;
-import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
-import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryWithUserId;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
-import payhere.cafeproduct.api.productCategory.service.ProductCategoryServiceImpl;
-import payhere.cafeproduct.api.user.domain.User;
 import payhere.cafeproduct.api.user.repository.UserJpaRepository;
 import payhere.cafeproduct.global.dto.UserDetailDto;
 import payhere.cafeproduct.global.enums.ProductSize;
@@ -242,11 +232,38 @@ public class ProductServiceTest {
     @Test
     @DisplayName("상품 삭제 - 상품 삭제 권한이 없습니다")
     public void 상품_삭제_권한이_없습니다() throws Exception {
+        // Given
+        List<Long> ids = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
+        UserDetailDto userDetailDto = generateUserDetailDto();
+
+        // Mock
+        when(productJpaRepository.existProduct(anyInt(), anyList())).thenReturn(true);
+
+        // When
+        ForbiddenException exception = assertThrows(ForbiddenException.class, () -> {
+            productService.deleteProduct(userDetailDto, ids);
+        });
+
+        // Then
+        assertEquals("상품을 삭제할 권한이 없습니다.", exception.getMessage());
     }
 
     @Test
     @DisplayName("상품 삭제 - 상품 삭제에 성공했습니다")
     public void 상품_삭제_성공_했습니다() throws Exception {
+        // Given
+        List<Long> ids = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
+        UserDetailDto userDetailDto = generateUserDetailDto();
+
+        // Mock
+        when(productCategoryJpaRepository.isExistProductCategory(anyInt(), anyList())).thenReturn(false);
+
+        // When
+        ResponseEntity<?> response = productService.deleteProduct(userDetailDto, ids);
+
+        // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     // ** Test UserDetailDto 생성
