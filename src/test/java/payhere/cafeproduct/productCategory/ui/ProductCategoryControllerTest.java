@@ -78,7 +78,7 @@ public class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("상품 카테고리 생성 API를 생성 가능합니다.")
+    @DisplayName("상품 카테고리 생성 API를 사용 가능합니다.")
     public void 상품_카테고리_생성_성공했습니다() throws Exception {
         // Given
         RequestProductCategorySaveDto request = RequestProductCategorySaveDto.builder()
@@ -108,7 +108,7 @@ public class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("상품 카테고리 리스트 조회 - 상품 카테고리 리스트 조회에 성공했습니다.")
+    @DisplayName("상품 카테고리 리스트 조회 API를 사용 가능합니다.")
     public void 상품_카테고리_리스트_조회_성공했습니다() throws Exception {
         // Given
         UserDetailDto userDetailDto = generateUserDetailDto();
@@ -137,7 +137,7 @@ public class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("상품 카테고리 조회 - ID 기반의 상품 카테고리 조회에 성공했습니다.")
+    @DisplayName("상품 카테고리 조회 API를 사용 가능합니다.")
     public void 상품_카테고리_데이터_조회_성공했습니다() throws Exception {
         // Given
         UserDetailDto userDetailDto = generateUserDetailDto();
@@ -160,7 +160,7 @@ public class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("상품 카테고리 수정 - 상품 카테고리 수정에 성공했습니다.")
+    @DisplayName("상품 카테고리 수정 API를 사용 가능합니다.")
     public void 상품_카테고리_수정_성공했습니다() throws Exception {
         // Given
         RequestProductCategoryUpdateDto request = RequestProductCategoryUpdateDto.builder()
@@ -189,7 +189,7 @@ public class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("상품 카테고리 삭제 - 상품 카테고리 삭제에 성공했습니다.")
+    @DisplayName("상품 카테고리 삭제 API를 사용 가능합니다.")
     public void 상품_카테고리_삭제_성공했습니다() throws Exception {
         // Given
         List<Integer> ids = new ArrayList<>(Arrays.asList(1, 2, 3));

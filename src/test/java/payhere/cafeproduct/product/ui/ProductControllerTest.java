@@ -170,7 +170,7 @@ public class ProductControllerTest {
 
     @Test
     @DisplayName("상품 수정 API를 사용할 수 있습니다.")
-    public void 상품_카테고리_수정_성공했습니다() throws Exception {
+    public void 상품_수정_성공했습니다() throws Exception {
         // Given
         RequestProductUpdateDto request = RequestProductUpdateDto.builder()
                 .productId(1L)
