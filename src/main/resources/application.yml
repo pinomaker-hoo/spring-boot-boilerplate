@@ -2,7 +2,7 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 60s
   profiles:
-    active: dev
+    active: prod
   config:
     name: application
   datasource:
