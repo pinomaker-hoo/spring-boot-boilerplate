@@ -35,6 +35,10 @@ public class Product extends BaseTimeEntity {
     @Column(nullable = false, length = 20, name = "name")
     private String name;
 
+    @Comment("상품 이름 초성")
+    @Column(nullable = false, length = 20, name = "name_consonant")
+    private String nameConsonant;
+
     @Comment("상품 코드(바코드)")
     @Column(nullable = false, length = 30, name = "code")
     private String code;

@@ -52,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
                         .cost(dto.getCost())
                         .code(dto.getCode())
                         .name(dto.getName())
+                        .nameConsonant(getNameConsonant(dto.getName()))
                         .expirationDate(LocalDateTime.parse(dto.getExpirationDate(), formatter))
                         .exposeYn(dto.getExposeYn())
                         .size(dto.getProductSize())
@@ -93,7 +94,7 @@ public class ProductServiceImpl implements ProductService {
 
 
         productJpaRepository.updateProduct(
-                dto.getPrice(), dto.getCost(), dto.getName(), dto.getCode(), LocalDateTime.parse(dto.getExpirationDate(), formatter), dto.getProductSize(), dto.getExposeYn(), dto.getSoldOutYn(), dto.getProductCategoryId(), userDetailDto.getUserId(), dto.getProductId()
+                dto.getPrice(), dto.getCost(), dto.getName(), getNameConsonant(dto.getName()), dto.getCode(), LocalDateTime.parse(dto.getExpirationDate(), formatter), dto.getProductSize(), dto.getExposeYn(), dto.getSoldOutYn(), dto.getProductCategoryId(), userDetailDto.getUserId(), dto.getProductId()
         );
 
         logJpaRepository.save(
