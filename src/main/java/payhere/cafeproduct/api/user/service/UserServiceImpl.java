@@ -32,14 +32,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> saveUser(RequestUserSaveDto dto) throws Exception {
+        // ** 전화번호 기반 유저 조회
         boolean existUserByPhoneNumber = userJpaRepository.existByPhoneNumber(dto.getPhoneNumber());
 
-        log.info("Exist User By Phone Number : {}", existUserByPhoneNumber);
+        log.info("전화번호를 가진 유저 존재 여부 : {}", existUserByPhoneNumber);
 
+        // ** 중복 유저 존재
         if (existUserByPhoneNumber) {
             throw new BadRequestException("이미 가입한 전화번호 입니다.");
         }
 
+        // ** 유저 생성
         userJpaRepository.save(User.builder()
                 .phoneNumber(dto.getPhoneNumber())
                 .password(passwordEncoder.encode(dto.getPassword()))
@@ -51,18 +54,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> loginUser(RequestUserLoginDto dto) throws Exception {
+        // ** Login 유저 조회
         LoginUser loginUser = userJpaRepository.findUserByPhoneNumber(dto.getPhoneNumber());
 
+        // ** 데이터 조회 실패
         if (loginUser == null) {
             throw new NotFoundException("유저를 찾을 수 없습니다.");
         }
 
+        // ** 패스워드가 같지 않음
         if (!passwordEncoder.matches(dto.getPassword(), loginUser.getPassword())) {
             throw new BadRequestException("비밀번호가 같지 않습니다.");
         }
 
+        // ** Token 생성
         TokenDto tokenDto = jwtTokenProvider.issueToken(Long.valueOf(loginUser.getId()), UserRole.ROLE_MEMBER);
 
+        // ** 로그인 기록 생성
         logJpaRepository.save(Log.builder().logType(LogType.LOGIN).log("로그인 했습니다.").userId(loginUser.getId()).build());
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "로그인에 성공했습니다.", tokenDto);
