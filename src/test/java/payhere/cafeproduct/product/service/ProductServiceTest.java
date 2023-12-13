@@ -9,6 +9,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import payhere.cafeproduct.api.log.repository.LogJpaRepository;
@@ -20,6 +23,7 @@ import payhere.cafeproduct.api.product.event.vo.ProductWithUserId;
 import payhere.cafeproduct.api.product.repository.ProductJpaRepository;
 import payhere.cafeproduct.api.product.service.ProductServiceImpl;
 import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
+import payhere.cafeproduct.api.productCategory.event.vo.ProductCategoryInfo;
 import payhere.cafeproduct.api.productCategory.repository.ProductCategoryJpaRepository;
 import payhere.cafeproduct.api.user.repository.UserJpaRepository;
 import payhere.cafeproduct.global.dto.UserDetailDto;
@@ -123,6 +127,27 @@ public class ProductServiceTest {
     @Test
     @DisplayName("상품 리스트 조회 - 상품 리스트 조회에 성공했습니다.")
     public void 상품_리스트_조회_성공했습니다() throws Exception {
+        // Given
+        UserDetailDto userDetailDto = generateUserDetailDto();
+        Pageable pageable = PageRequest.of(0, 10);
+        String name = "ㅇㅁㄹㅋㄴ";
+        Long productId = 0L;
+
+        // Mock
+        when(productJpaRepository.findProductList(anyInt(), anyString(), anyLong(), any()))
+                .thenReturn(new PageImpl<>(List.of(
+                        new ProductDetail(1L, 30000, 10000, "ICE TEA", "ABCD_EF@_123", LocalDateTime.now(),
+                                ProductSize.LARGE, "Y", "Y", "TEA", LocalDateTime.now()),
+                        new ProductDetail(2L, 30000, 10000, "ICE TEA", "ABCD_EF@_123", LocalDateTime.now(),
+                                ProductSize.LARGE, "Y", "Y", "TEA", LocalDateTime.now())
+                )));
+
+        // When
+        ResponseEntity<?> response = productService.findProductList(userDetailDto, name, productId, pageable);
+
+        // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     @Test
