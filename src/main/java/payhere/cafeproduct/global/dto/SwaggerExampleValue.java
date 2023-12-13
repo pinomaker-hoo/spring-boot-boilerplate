@@ -41,4 +41,8 @@ public class SwaggerExampleValue {
     public static final String PRODUCT_UPDATE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품을 수정합니다..\"},\"data\":null}";
     public static final String PRODUCT_UPDATE_NOT_FOUND_RESPONSE = "{\"meta\":{\"code\":404,\"message\":\"상품 정보를 찾을 수 없습니다.\"},\"data\":null}";
     public static final String PRODUCT_UPDATE_FORBIDDEN_RESPONSE = "{\"meta\":{\"code\":403,\"message\":\"상품을 수정할 권한이 없습니다.\"},\"data\":null}";
+
+    // ** DELETE : /api/v1/product
+    public static final String PRODUCT_DELETE_RESPONSE = "{\"meta\":{\"code\":200,\"message\":\"상품을 삭제합니다.\"},\"data\":null}";
+    public static final String PRODUCT_DELETE_FORBIDDEN_RESPONSE = "{\"meta\":{\"code\":403,\"message\":\"해당 상품을 삭제할 권한이 없습니다.\"},\"data\":null}";
 }

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import payhere.cafeproduct.api.product.domain.QProduct;
 import payhere.cafeproduct.api.product.event.vo.ProductWithUserId;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class ProductJpaCustomRepositoryImpl implements ProductJpaCustomRepository {
     private final JPAQueryFactory queryFactory;
@@ -24,5 +26,20 @@ public class ProductJpaCustomRepositoryImpl implements ProductJpaCustomRepositor
                 ).from(p)
                 .where(p.id.eq(id).and(p.delYn.eq("N")))
                 .fetchOne();
+    }
+
+    @Override
+    public boolean existProduct(Integer userId, List<Long> ids) {
+        QProduct p = QProduct.product;
+
+        long count = 0;
+
+        count = queryFactory.select(p.id.count())
+                .from(p)
+                .where(p.productCategory.user.id.ne(userId).and(
+                        p.id.in(ids)
+                )).fetchCount();
+
+        return count > 0 ? true : false;
     }
 }

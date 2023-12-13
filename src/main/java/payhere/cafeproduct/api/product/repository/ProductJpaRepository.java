@@ -10,6 +10,7 @@ import payhere.cafeproduct.api.productCategory.domain.ProductCategory;
 import payhere.cafeproduct.global.enums.ProductSize;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface ProductJpaRepository extends JpaRepository<Product, Long>, ProductJpaCustomRepository {
     @Modifying
@@ -21,4 +22,9 @@ public interface ProductJpaRepository extends JpaRepository<Product, Long>, Prod
                       @Param("name") String name, @Param("code") String code,
                       @Param("expirationDate") LocalDateTime expirationDate, @Param("productSize") ProductSize productSize, @Param("exposeYn") String exposeYn,
                       @Param("soldOutYn") String soldOutYn, @Param("productCategoryId") Integer productCategoryId, @Param("id") Integer id, @Param("productId") Long productId);
+
+    @Modifying
+    @Transactional(rollbackFor = {Exception.class})
+    @Query("UPDATE Product p SET p.delYn = 'Y', p.deletedId = :userId, p.deletedDate = now() where p.id IN :ids")
+    int deleteProduct(@Param("ids") List<Long> ids, @Param("userId") Integer userId);
 }

@@ -23,6 +23,7 @@ import payhere.cafeproduct.global.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -103,5 +104,27 @@ public class ProductServiceImpl implements ProductService {
         );
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "상품을 수정합니다.", null);
+    }
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public ResponseEntity<?> deleteProduct(UserDetailDto userDetailDto, List<Long> ids) throws Exception {
+        boolean existProduct = productJpaRepository.existProduct(userDetailDto.getUserId(), ids);
+
+        if (existProduct) {
+            throw new ForbiddenException("상품을 삭제할 권한이 없습니다.");
+        }
+
+        productJpaRepository.deleteProduct(ids, userDetailDto.getUserId());
+
+        logJpaRepository.save(
+                Log.builder().logType(LogType.PRODUCT_DELETE)
+                        .log("상품을 삭제합니다.")
+                        .userId(userDetailDto.getUserId())
+                        .logData(ids.toString())
+                        .build()
+        );
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "상품을 삭제합니다.", null);
     }
 }
