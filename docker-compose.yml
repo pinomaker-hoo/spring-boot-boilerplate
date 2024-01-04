@@ -2,8 +2,7 @@ version: '3'
 
 services:
   mysql:
-    image: mysql:5.7
-    platform: linux/amd64
+    image: mysql
     volumes:
       - ./db/data:/var/lib/mysql
       - ./my.cnf:/etc/mysql/my.cnf
@@ -13,22 +12,22 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=qwer1595@!
-      - MYSQL_DATABASE=payhere
+      - MYSQL_DATABASE=mars
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=qwer1595@!
       - TZ=Asia/Seoul
 
-  payhere-server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: payhere-server
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/payhere
-      - SPRING_DATASOURCE_USERNAME=admin
-      - SPRING_DATASOURCE_PASSWORD=qwer1595@!
-    restart: always
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mysql
+#  mars-server:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: mars-server
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mars
+#      - SPRING_DATASOURCE_USERNAME=admin
+#      - SPRING_DATASOURCE_PASSWORD=qwer1595@!
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - mysql

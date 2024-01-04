@@ -13,7 +13,6 @@ import org.mockito.quality.Strictness;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.user.event.dto.RequestTokenReissueDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserLoginDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserSaveDto;
@@ -53,9 +52,6 @@ public class UserServiceTest {
     private JwtTokenProvider jwtTokenProvider;
 
     @Mock
-    private LogJpaRepository logJpaRepository;
-
-    @Mock
     private JwtTokenValidator jwtTokenValidator;
 
     @Mock
@@ -66,12 +62,12 @@ public class UserServiceTest {
     public void 회원가입_전화번호는_중복일_수_없습니다() throws Exception {
         // Given
         RequestUserSaveDto request = RequestUserSaveDto.builder()
-                .phoneNumber("010-1234-5678")
+                .username("pinomaker")
                 .password("qwer1595")
                 .build();
 
         // Mock
-        when(userJpaRepository.existByPhoneNumber(anyString())).thenReturn(true);
+        when(userJpaRepository.existByUsername(anyString())).thenReturn(true);
 
         // When
         BadRequestException exception = assertThrows(BadRequestException.class, () -> {
@@ -87,12 +83,12 @@ public class UserServiceTest {
     public void 회원가입_성공했습니다() throws Exception {
         // Given
         RequestUserSaveDto request = RequestUserSaveDto.builder()
-                .phoneNumber("010-1234-5678")
+                .username("pinomaker")
                 .password("qwer1595")
                 .build();
 
         // Mock
-        when(userJpaRepository.existByPhoneNumber(request.getPhoneNumber()))
+        when(userJpaRepository.existByUsername(request.getUsername()))
                 .thenReturn(false);
 
         // When
@@ -108,12 +104,12 @@ public class UserServiceTest {
     public void 로그인_유저를_찾을_수_없습니다() throws Exception {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
-                .phoneNumber("010-1234-5678")
+                .username("pinomaker")
                 .password("qwer1595")
                 .build();
 
         // Mock
-        when(userJpaRepository.existByPhoneNumber(anyString())).thenReturn(false);
+        when(userJpaRepository.existByUsername(anyString())).thenReturn(false);
 
         // When
         NotFoundException exception = assertThrows(NotFoundException.class, () -> {
@@ -129,14 +125,14 @@ public class UserServiceTest {
     public void 로그인_비밀번호가_같지_않습니다() throws Exception {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
-                .phoneNumber("010-1234-5678")
+                .username("pinomaker")
                 .password("qwer1595")
                 .build();
 
-        LoginUser loginUser = new LoginUser(0, request.getPhoneNumber(), "");
+        LoginUser loginUser = new LoginUser(0, request.getUsername(), "");
 
         // Mock
-        when(userJpaRepository.findUserByPhoneNumber(anyString())).thenReturn(loginUser);
+        when(userJpaRepository.findUserByUsername(anyString())).thenReturn(loginUser);
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(false);
 
         // When
@@ -153,14 +149,14 @@ public class UserServiceTest {
     public void 로그인_성공했습니다() throws Exception {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
-                .phoneNumber("010-1234-5678")
+                .username("pinomaker")
                 .password("qwer1595")
                 .build();
 
-        LoginUser loginUser = new LoginUser(0, request.getPhoneNumber(), request.getPassword());
+        LoginUser loginUser = new LoginUser(0, request.getUsername(), request.getPassword());
 
         // Mock
-        when(userJpaRepository.findUserByPhoneNumber(anyString())).thenReturn(loginUser);
+        when(userJpaRepository.findUserByUsername(anyString())).thenReturn(loginUser);
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
 
         // When

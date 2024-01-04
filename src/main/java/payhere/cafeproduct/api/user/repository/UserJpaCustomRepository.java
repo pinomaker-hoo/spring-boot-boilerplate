@@ -4,7 +4,7 @@ package payhere.cafeproduct.api.user.repository;
 import payhere.cafeproduct.api.user.event.vo.LoginUser;
 
 public interface UserJpaCustomRepository {
-    boolean existByPhoneNumber(String phoneNumber);
+    boolean existByUsername(String username);
 
-    LoginUser findUserByPhoneNumber(String phoneNumber);
+    LoginUser findUserByUsername(String username);
 }

@@ -19,9 +19,9 @@ public class User extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Comment("전화번호")
+    @Comment("아이디")
     @Column(length = 30, unique = true, nullable = false, name = "phone_number")
-    private String phoneNumber;
+    private String username;
 
     @Comment("비밀번호")
     @Column(length = 150, nullable = false)

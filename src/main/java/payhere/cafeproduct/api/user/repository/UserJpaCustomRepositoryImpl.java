@@ -10,31 +10,41 @@ import payhere.cafeproduct.api.user.event.vo.LoginUser;
 public class UserJpaCustomRepositoryImpl implements UserJpaCustomRepository {
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * username 기반 데이터 존재 여부 조회
+     * @param username
+     * @return
+     */
     @Override
-    public boolean existByPhoneNumber(String phoneNumber) {
+    public boolean existByUsername(String username) {
         QUser u = QUser.user;
 
         Integer fetchOne = queryFactory
                 .selectOne()
                 .from(u)
-                .where(u.phoneNumber.eq(phoneNumber))
+                .where(u.username.eq(username))
                 .fetchFirst();
 
         return fetchOne != null;
     }
 
+    /**
+     * username 기반 user 조회
+     * @param username
+     * @return
+     */
     @Override
-    public LoginUser findUserByPhoneNumber(String phoneNumber) {
+    public LoginUser findUserByUsername(String username) {
         QUser u = QUser.user;
 
         return queryFactory.select(
                         Projections.constructor(
                                 LoginUser.class,
                                 u.id,
-                                u.phoneNumber,
+                                u.username,
                                 u.password
                         )
                 ).from(u)
-                .where(u.phoneNumber.eq(phoneNumber)).fetchOne();
+                .where(u.username.eq(username)).fetchOne();
     }
 }

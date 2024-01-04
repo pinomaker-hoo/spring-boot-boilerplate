@@ -19,14 +19,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import payhere.cafeproduct.api.log.repository.LogJpaRepository;
 import payhere.cafeproduct.api.user.event.dto.RequestTokenReissueDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserLoginDto;
 import payhere.cafeproduct.api.user.event.dto.RequestUserSaveDto;
 import payhere.cafeproduct.api.user.event.vo.LoginUser;
 import payhere.cafeproduct.api.user.repository.UserJpaRepository;
 import payhere.cafeproduct.api.user.service.UserServiceImpl;
-import payhere.cafeproduct.api.user.ui.UserController;
+import payhere.cafeproduct.api.user.ui.AuthController;
 import payhere.cafeproduct.global.enums.UserRole;
 import payhere.cafeproduct.global.jwt.JwtTokenProvider;
 import payhere.cafeproduct.global.jwt.JwtTokenValidator;
@@ -42,10 +41,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-@DisplayName("User API Test")
-public class UserControllerTest {
+@DisplayName("Auth API Test")
+public class AuthControllerTest {
     @InjectMocks
-    private UserController userController;
+    private AuthController authController;
 
     @Mock
     private UserServiceImpl userService;
@@ -55,8 +54,6 @@ public class UserControllerTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private JwtTokenProvider jwtTokenProvider;
-    @Mock
-    private LogJpaRepository logJpaRepository;
     @Mock
     private JwtTokenValidator jwtTokenValidator;
     @Mock
@@ -69,7 +66,7 @@ public class UserControllerTest {
 
     @BeforeEach
     public void initEnvironment() {
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(authController).build();
     }
 
     @Test
@@ -77,12 +74,12 @@ public class UserControllerTest {
     public void 회원가입_성공() throws Exception {
         // Given
         RequestUserSaveDto request = RequestUserSaveDto.builder()
-                .phoneNumber("010-1234-5678")
+                .username("010-1234-5678")
                 .password("qwer1595")
                 .build();
 
         // Mock
-        when(userJpaRepository.existByPhoneNumber(request.getPhoneNumber()))
+        when(userJpaRepository.existByUsername(request.getUsername()))
                 .thenReturn(false);
 
         // When
@@ -103,14 +100,14 @@ public class UserControllerTest {
     public void 로그인_성공() throws Exception {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
-                .phoneNumber("010-1234-5678")
+                .username("010-1234-5678")
                 .password("qwer1595")
                 .build();
 
-        LoginUser loginUser = new LoginUser(0, request.getPhoneNumber(), request.getPassword());
+        LoginUser loginUser = new LoginUser(0, request.getUsername(), request.getPassword());
 
         // Mock
-        when(userJpaRepository.findUserByPhoneNumber(anyString())).thenReturn(loginUser);
+        when(userJpaRepository.findUserByUsername(anyString())).thenReturn(loginUser);
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
 
         // When

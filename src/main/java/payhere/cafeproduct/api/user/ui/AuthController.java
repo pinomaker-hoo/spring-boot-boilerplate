@@ -22,10 +22,10 @@ import payhere.cafeproduct.global.dto.SwaggerExampleValue;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/user")
-@Tag(name = "User API", description = "유저 관련 API")
+@RequestMapping("/api/v1/auth")
+@Tag(name = "Auth API", description = "인증 관련 API")
 @Slf4j
-public class UserController {
+public class AuthController {
     private final UserService userService;
 
     @Operation(summary = "Save User", description = "회원가입, 전화번호와 비밀번호를 받아 유효성 및 중복 검사 후 유저를 저장합니다.")
