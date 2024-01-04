@@ -10,7 +10,7 @@ FROM azul/zulu-openjdk:17
 
 WORKDIR /app
 
-COPY --from=builder /app/build/libs/cafe-product-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/build/libs/mars-application-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 

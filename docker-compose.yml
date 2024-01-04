@@ -1,12 +1,7 @@
 version: '3'
-
 services:
-  mysql:
-    image: mysql
-    volumes:
-      - ./db/data:/var/lib/mysql
-      - ./my.cnf:/etc/mysql/my.cnf
-      - ./error.log:/var/log/mysql/error.log
+  mariadb:
+    image: mariadb
     ports:
       - 3306:3306
     restart: always
@@ -16,18 +11,23 @@ services:
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=qwer1595@!
       - TZ=Asia/Seoul
-
+    volumes:
+      - mariadb_data:/var/lib/mysql
 #  mars-server:
 #    build:
 #      context: .
 #      dockerfile: Dockerfile
 #    container_name: mars-server
 #    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mars
+#      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/mars
 #      - SPRING_DATASOURCE_USERNAME=admin
 #      - SPRING_DATASOURCE_PASSWORD=qwer1595@!
 #    restart: always
 #    ports:
 #      - "8080:8080"
 #    depends_on:
-#      - mysql
+#      - mariadb
+
+
+volumes:
+  mariadb_data:
