@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
-        info = @Info(title = "Payhere Cafe Product API",
+        info = @Info(title = "Mars API",
                 description = "api document",
                 version = "v1"))
 @RequiredArgsConstructor
@@ -24,7 +24,7 @@ public class SwaggerConfig {
         String[] paths = {"/api/**"};
 
         return GroupedOpenApi.builder()
-                .group("Payhere API")
+                .group("Mars API")
                 .pathsToMatch(paths)
                 .build();
     }
