@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RequestUserSaveDto {
-    @Schema(example = "010-6305-7848")
+    @Schema(example = "admin")
     @Size(max = 30, message = "30자 이내로 입력하세요.")
     @NotNull
     private String username;
