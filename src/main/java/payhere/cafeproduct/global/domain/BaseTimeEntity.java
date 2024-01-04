@@ -22,8 +22,4 @@ public abstract class BaseTimeEntity {
     @Column(nullable = false, name = "modified_date")
     @LastModifiedDate
     private LocalDateTime modifiedDate;
-
-    @Comment("삭제 시간")
-    @Column(nullable = true, name = "deleted_date")
-    private LocalDateTime deletedDate;
 }
