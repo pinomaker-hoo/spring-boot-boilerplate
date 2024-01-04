@@ -40,7 +40,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
         // ** Jwt Interceptor
         registry.addInterceptor(new JwtInterceptor(jwtTokenExtractor))
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/v1/user/**")
+                .excludePathPatterns("/api/v1/auth/**")
                 .excludePathPatterns("/health")
                 .order(1);
     }
