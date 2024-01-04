@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build());
 
-        return CommonResponse.createResponse(HttpStatus.OK.value(), "회원가입에 성공하였습니다.", null);
+        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "회원가입에 성공하였습니다.");
     }
 
 

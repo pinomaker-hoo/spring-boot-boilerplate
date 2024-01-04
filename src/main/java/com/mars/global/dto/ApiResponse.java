@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 
 @Getter
-@JsonInclude
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
 
     private int code;
