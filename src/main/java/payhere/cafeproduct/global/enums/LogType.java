@@ -1,5 +1,0 @@
-package payhere.cafeproduct.global.enums;
-
-public enum LogType {
-    LOGIN, PRODUCT_CATEGORY_ADD, PRODUCT_CATEGORY_UPDATE, PRODUCT_CATEGORY_DELETE, PRODUCT_ADD, PRODUCT_UPDATE, PRODUCT_DELETE
-}
