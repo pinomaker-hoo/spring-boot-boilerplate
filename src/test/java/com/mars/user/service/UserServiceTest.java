@@ -58,8 +58,8 @@ public class UserServiceTest {
     private EncryptionUtils encryptionUtils;
 
     @Test
-    @DisplayName("회원가입 - 전화번호 중복일 수 없습니다.")
-    public void 회원가입_전화번호는_중복일_수_없습니다() throws Exception {
+    @DisplayName("회원가입 - 유저 아이디는 중복일 수 없습니다.")
+    public void 회원가입_유저_아이디는_중복일_수_없습니다() throws Exception {
         // Given
         RequestUserSaveDto request = RequestUserSaveDto.builder()
                 .username("pinomaker")
@@ -75,7 +75,7 @@ public class UserServiceTest {
         });
 
         // Then
-        assertEquals("이미 가입한 전화번호 입니다.", exception.getMessage());
+        assertEquals("이미 사용 중인 아이디 입니다.", exception.getMessage());
     }
 
     @Test
