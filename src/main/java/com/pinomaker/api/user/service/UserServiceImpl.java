@@ -34,12 +34,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 회원가입 메서드
+     *
      * @param dto
      * @return
      * @throws Exception
      */
     @Override
-    public ResponseEntity<?> saveUser(RequestUserSaveDto dto) throws Exception {
+    public ResponseEntity<?> saveUser(RequestUserSaveDto dto) {
         // ** 유저네임 기반 유저 조회
         boolean existUserByPhoneNumber = userJpaRepository.existByUsername(dto.getUsername());
 
@@ -60,12 +61,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 로그인 메서드
+     *
      * @param dto
      * @return
      * @throws Exception
      */
     @Override
-    public ResponseEntity<?> loginUser(RequestUserLoginDto dto) throws Exception {
+    public ResponseEntity<?> loginUser(RequestUserLoginDto dto) {
         // ** Login 유저 조회
         LoginUser loginUser = userJpaRepository.findUserByUsername(dto.getUsername());
 
@@ -86,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> reissueToken(RequestTokenReissueDto dto) throws Exception {
+    public ResponseEntity<?> reissueToken(RequestTokenReissueDto dto) {
         // ** RefreshToken 유효성 검사
         jwtTokenValidator.validateToken(dto.getRefreshToken());
 

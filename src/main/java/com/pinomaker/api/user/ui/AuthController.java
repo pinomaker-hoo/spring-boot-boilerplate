@@ -34,7 +34,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "이미 사용 중인 아이디 입니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.USER_SAVE_EXISTED_NUMBER_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
     @PostMapping
-    public ResponseEntity<?> saveUser(@Valid @RequestBody RequestUserSaveDto dto) throws Exception {
+    public ResponseEntity<?> saveUser(@Valid @RequestBody RequestUserSaveDto dto) {
         return userService.saveUser(dto);
     }
 
@@ -45,7 +45,7 @@ public class AuthController {
             @ApiResponse(responseCode = "404", description = "유저를 찾을 수 없습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.USER_LOGIN_NOT_FOUND_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody RequestUserLoginDto dto) throws Exception {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody RequestUserLoginDto dto) {
         return userService.loginUser(dto);
     }
 
@@ -54,7 +54,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "토큰을 재발급 받습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.REISSUE_TOKEN_RESPONSE))),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissueToken(@Valid @RequestBody RequestTokenReissueDto dto) throws Exception {
+    public ResponseEntity<?> reissueToken(@Valid @RequestBody RequestTokenReissueDto dto) {
         return userService.reissueToken(dto);
     }
 }

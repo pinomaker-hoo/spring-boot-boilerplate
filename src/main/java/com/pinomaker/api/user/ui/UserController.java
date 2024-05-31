@@ -30,8 +30,8 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "토큰이 유효하지 않습니다.", content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UN_AUTHENTICATION_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_RESPONSE)))})
     @GetMapping
-    public ResponseEntity<?> sample(HttpServletRequest request) throws Exception {
-        UserDetailDto userDetailDto1 = getUserDetailDto(request);
+    public ResponseEntity<?> sample(HttpServletRequest request) {
+        UserDetailDto userDetailDto = getUserDetailDto(request);
 
         return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "샘플");
     }

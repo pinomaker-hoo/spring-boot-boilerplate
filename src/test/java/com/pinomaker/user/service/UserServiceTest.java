@@ -59,7 +59,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("회원가입 - 유저 아이디는 중복일 수 없습니다.")
-    public void 회원가입_유저_아이디는_중복일_수_없습니다() throws Exception {
+    public void 회원가입_유저_아이디는_중복일_수_없습니다() {
         // Given
         RequestUserSaveDto request = RequestUserSaveDto.builder()
                 .username("pinomaker")
@@ -80,7 +80,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("회원가입 - 성공")
-    public void 회원가입_성공했습니다() throws Exception {
+    public void 회원가입_성공했습니다() {
         // Given
         RequestUserSaveDto request = RequestUserSaveDto.builder()
                 .username("pinomaker")
@@ -101,7 +101,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("로그인 - 유저를 찾을 수 없습니다.")
-    public void 로그인_유저를_찾을_수_없습니다() throws Exception {
+    public void 로그인_유저를_찾을_수_없습니다() {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
                 .username("pinomaker")
@@ -122,7 +122,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("로그인 - 비밀번호가 같지 않습니다.")
-    public void 로그인_비밀번호가_같지_않습니다() throws Exception {
+    public void 로그인_비밀번호가_같지_않습니다() {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
                 .username("pinomaker")
@@ -146,7 +146,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("로그인 - 로그인에 성공했습니다.")
-    public void 로그인_성공했습니다() throws Exception {
+    public void 로그인_성공했습니다() {
         // Given
         RequestUserLoginDto request = RequestUserLoginDto.builder()
                 .username("pinomaker")
@@ -169,7 +169,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("토큰 재발급 - 토큰 재발급에 성공했습니다.")
-    public void 토큰_재발급_성공했습니다() throws Exception {
+    public void 토큰_재발급_성공했습니다() {
         // Given
         RequestTokenReissueDto request = RequestTokenReissueDto.builder().refreshToken("eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiVUJPVE5VV1VlWUR4U2lraW1lWmZsUSIsImlkIjoiR0lTd2pBczdfYng4djJ4REFfY25uZyIsImlhdCI6MTcwMjQ0NjM5MCwiZXhwIjoxNzAyNDQ4MTkwfQ.OZZk9tEQpARX22edli6huhxlWSnf8xhm8sEVev3PJZJlC_-5slETODlNLjN-eB6nipahx5rUXK3hJfwHqAgUoEPa_F7dJYc_gWkRqnvgp8TMdVw0xVWpCREX7s81hMSixeAL3abA6kFdeDATkhRBdGDcmeHtzBxJC-h9ctSYOa7WB7UbATW4XXr_V-HKAWz0geFiz4mJ6Jk3d0KwKRtsGH_xuQp90AGxmme0AuL9gSn5TtOuaZpIuW_0d7RT-9vH_W1NsA2Qe7i7F93_Jit73DF5gNhy5ZwHMiEZFuGCOIMPZ9E6T3Lz12sd0Q-HZKkaWiiJ2tasSXK1l3fLQWABFQ").build();
         Map<String, Object> claims = new HashMap<>();

@@ -23,7 +23,7 @@ public class JwtTokenValidator {
     /**
      * 토큰 인증
      */
-    public void validateToken(String token) throws Exception {
+    public void validateToken(String token) {
         final PublicKey key = jwtConfig.getPublicKey();
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -46,7 +46,7 @@ public class JwtTokenValidator {
      * Get claims from Token
      */
 
-    public Claims getClaimsFromToken(String token) throws Exception {
+    public Claims getClaimsFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(jwtConfig.getPublicKey()).build().parseClaimsJws(token).getBody();
     }
 }

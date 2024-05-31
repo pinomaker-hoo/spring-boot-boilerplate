@@ -29,7 +29,7 @@ public class JwtTokenProvider {
     @Value("${jwt.refreshTokenValidityInSeconds}")
     private String refreshTokenValidationTime;
 
-    public TokenDto issueToken(Integer userId, UserRole role) throws Exception {
+    public TokenDto issueToken(Integer userId, UserRole role) {
         final String accessToken = generateToken(userId, role, Long.valueOf(accessTokenValidationTime));
         final String refreshToken = generateToken(userId, role, Long.valueOf(refreshTokenValidationTime));
 
@@ -39,7 +39,7 @@ public class JwtTokenProvider {
                 .build();
     }
 
-    public TokenDto reissueToken(Integer userId, UserRole role, String refreshToken) throws Exception {
+    public TokenDto reissueToken(Integer userId, UserRole role, String refreshToken) {
         final String accessToken = generateToken(userId, role, Long.valueOf(accessTokenValidationTime));
 
         return TokenDto.builder()
@@ -48,7 +48,7 @@ public class JwtTokenProvider {
                 .build();
     }
 
-    private String generateToken(Integer userId, UserRole role, Long tokenValidationTime) throws Exception {
+    private String generateToken(Integer userId, UserRole role, Long tokenValidationTime) {
         final Map<String, Object> claims = createClaims(userId, role);
         final PrivateKey privateKey = jwtConfig.getPrivateKey();
 

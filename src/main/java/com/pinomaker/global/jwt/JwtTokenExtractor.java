@@ -23,7 +23,7 @@ public class JwtTokenExtractor {
     private final EncryptionUtils encryptionUtils;
     private static final String AUTHORIZATION_KEY = "Authorization";
 
-    public UserDetailDto extractUserId(HttpServletRequest request) throws Exception {
+    public UserDetailDto extractUserId(HttpServletRequest request) {
         String jwt = getAuthorizationToken(request);
 
         Claims claims = jwtTokenValidator.getClaimsFromToken(jwt);
@@ -32,15 +32,15 @@ public class JwtTokenExtractor {
         String encodedRole = String.valueOf(claims.get("role"));
 
         Integer decodedUserId = Integer.valueOf(encryptionUtils.decrypt(encodedUserId));
-        UserRole decodeedRole = UserRole.valueOf(encryptionUtils.decrypt(encodedRole));
+        UserRole decodedRole = UserRole.valueOf(encryptionUtils.decrypt(encodedRole));
 
-        return UserDetailDto.builder().userId(decodedUserId).role(decodeedRole).build();
+        return UserDetailDto.builder().userId(decodedUserId).role(decodedRole).build();
     }
 
     /**
      * Header Check
      */
-    public String getAuthorizationToken(HttpServletRequest request) throws Exception {
+    public String getAuthorizationToken(HttpServletRequest request) {
         String token = getRequestToken(request);
 
         if (token == null) {

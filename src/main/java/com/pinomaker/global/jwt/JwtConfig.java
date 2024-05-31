@@ -24,7 +24,7 @@ public class JwtConfig {
     @Value("${jwt.private-key}")
     private String privateKeyString;
 
-    public PublicKey getPublicKey() throws Exception {
+    public PublicKey getPublicKey() {
         try {
             final byte[] publicKeyBytes = Base64.getDecoder().decode(publicKeyString
                     .replace("-----BEGIN PUBLIC KEY-----", "")
@@ -40,7 +40,7 @@ public class JwtConfig {
         }
     }
 
-    public PrivateKey getPrivateKey() throws Exception {
+    public PrivateKey getPrivateKey() {
         try {
             final byte[] privateKeyBytes = Base64.getDecoder().decode(privateKeyString
                     .replace("-----BEGIN PRIVATE KEY-----", "")

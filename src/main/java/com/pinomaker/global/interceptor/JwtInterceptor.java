@@ -13,8 +13,9 @@ import com.pinomaker.global.jwt.JwtTokenExtractor;
 @RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
     private final JwtTokenExtractor jwtTokenExtractor;
+
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         UserDetailDto userDetailDto = jwtTokenExtractor.extractUserId(request);
         request.setAttribute("user", userDetailDto);
         log.info("USER ID : {}", userDetailDto.toString());
